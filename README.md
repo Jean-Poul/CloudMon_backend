@@ -1,5 +1,5 @@
 # CA3 Backend Boilerplate 
-[![Build Status](https://travis-ci.com/AlexanderPihl/Semester-Eksamen-Backend.svg?branch=main)](https://travis-ci.com/AlexanderPihl/Semester-Eksamen-Backend)
+[![Build Status](https://app.travis-ci.com/Jean-Poul/CloudMon_backend.svg?branch=main)](https://app.travis-ci.com/Jean-Poul/CloudMon_backend.svg?branch=main)
 
 ## DAT3SEM GRP. 8
 Alexander Pihl
