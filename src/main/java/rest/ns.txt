@@ -1,0 +1,12 @@
+NAME              STATUS   AGE
+cert-manager      Active   15h
+default           Active   66d
+ingress-nginx     Active   66d
+kube-node-lease   Active   66d
+kube-public       Active   66d
+kube-system       Active   66d
+minio             Active   4d14h
+rook-ceph         Active   4d14h
+test              Active   2d17h
+test-ingress      Active   39h
+velero            Active   2d17h

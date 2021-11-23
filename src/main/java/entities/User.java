@@ -91,4 +91,5 @@ public class User implements Serializable {
         roleList.add(userRole);
     }
 
+    // TODO EVT EQUALS OG HASH SKAL TILFØJES PGA TEST ELLER OBJECT SAMMENLIGNING
 }
