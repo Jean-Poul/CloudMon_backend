@@ -17,11 +17,10 @@ script:
 services:
    - mysql
 
-# branches:
-#   only:
-#   - main
-#   - developer
-#   - kubernetes
+branches:
+  only:
+  - main
+  - developer
 
 before_script:
 
