@@ -1,6 +1,7 @@
 package facades;
 
 import dto.ApplicationDTO;
+import dto.ApplicationsDTO;
 import entities.Application;
 import errorhandling.NoConnectionException;
 import errorhandling.NotFoundException;
@@ -17,9 +18,9 @@ public class ApplicationFacade {
     private static EntityManagerFactory emf;
     private static ApplicationFacade instance;
 
-    private ApplicationFacade() {
-
-    }
+//    private ApplicationFacade() {
+//
+//    }
 
     /**
      *
@@ -32,6 +33,20 @@ public class ApplicationFacade {
             instance = new ApplicationFacade();
         }
         return instance;
+    }
+
+    public ApplicationsDTO getAllApplications() throws NoConnectionException {
+        // EntityManager em = getEntityManager();
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            return new ApplicationsDTO(em.createNamedQuery("Application.getAllRows").getResultList());
+        } catch (Exception e) {
+            // SKAL HUSKE AT LAVE DENNE EXCEPTION RIGTIG I ERRORHANDLING - Mangler stadig noget arbejde
+            throw new NoConnectionException("No connection to the database");
+        } finally {
+            em.close();
+        }
     }
 
     public ApplicationDTO addApplication(String name, String version, String location) throws NoConnectionException {

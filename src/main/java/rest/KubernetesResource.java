@@ -52,6 +52,8 @@ public class KubernetesResource {
 //    }
 
 // slettes højst sandsynligt
+
+/** GET **/
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getInfoForAll() {

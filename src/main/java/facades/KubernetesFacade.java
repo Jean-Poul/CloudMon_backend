@@ -40,6 +40,7 @@ public class KubernetesFacade {
     public NamespacesDTO getAllNamespaces() throws NoConnectionException {
 
         EntityManager em = getEntityManager();
+
         try {
             return new NamespacesDTO(em.createNamedQuery("Namespace.getAllRows").getResultList());
         } catch (Exception e) {
@@ -55,6 +56,7 @@ public class KubernetesFacade {
     public ServicesDTO getAllServices() throws NoConnectionException {
 
         EntityManager em = getEntityManager();
+
         try {
             return new ServicesDTO(em.createNamedQuery("Service.getAllRows").getResultList());
         } catch (Exception e) {
@@ -68,6 +70,7 @@ public class KubernetesFacade {
     public DeploymentsDTO getAllDeployments() throws NoConnectionException {
 
         EntityManager em = getEntityManager();
+
         try {
             return new DeploymentsDTO(em.createNamedQuery("Deployment.getAllRows").getResultList());
         } catch (Exception e) {
@@ -81,6 +84,7 @@ public class KubernetesFacade {
     public PodsDTO getAllPods() throws NoConnectionException {
 
         EntityManager em = getEntityManager();
+
         try {
             return new PodsDTO(em.createNamedQuery("Pod.getAllRows").getResultList());
         } catch (Exception e) {

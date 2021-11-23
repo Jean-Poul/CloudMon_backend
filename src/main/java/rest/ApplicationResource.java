@@ -8,6 +8,8 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dto.ApplicationDTO;
+import dto.ApplicationsDTO;
+import errorhandling.NoConnectionException;
 import facades.ApplicationFacade;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.core.Context;
@@ -40,8 +42,10 @@ public class ApplicationResource {
      */
 //    public ApplicationResource() {
 //    }
-
 // slettes højst sandsynligt
+    /**
+     * GET *
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getInfoForAll() {
@@ -55,6 +59,17 @@ public class ApplicationResource {
         return "Hello from application";
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("all")
+    public String getAllApplications() throws NoConnectionException {
+        ApplicationsDTO apps = FACADE.getAllApplications();
+        return GSON.toJson(apps);
+    }
+
+    /**
+     * POST *
+     */
     @POST
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
