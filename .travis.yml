@@ -21,6 +21,7 @@ branches:
   only:
   - main
   - developer
+  - kubernetes
 
 before_script:
 
