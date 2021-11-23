@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package entities;
 
 import java.io.Serializable;
@@ -10,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
@@ -19,12 +13,9 @@ import javax.persistence.Table;
  * @author jplm
  */
 @Entity
-@Table(name = "namespaces")
-@NamedQuery(name = "Namespace.getAllRows", query = "SELECT ns from Namespace ns")
-//@NamedQueries({
-//    @NamedQuery(name = "Namespace.deleteAllRows", query = "DELETE from Namespace"),
-//    @NamedQuery(name = "Namespace.getAllRows", query = "SELECT ns from Namespace ns")})
-public class Namespace implements Serializable {
+@Table(name = "application")
+@NamedQuery(name = "Application.getAllRows", query = "SELECT p from Application p")
+public class Application implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -32,17 +23,17 @@ public class Namespace implements Serializable {
     private Long id;
 
     private String name;
-    private String status;
-    private String age;
+    private String version;
+    private String location;
 
-    public Namespace() {
+    public Application() {
 
     }
 
-    public Namespace(String name, String status, String age) {
+    public Application(String name, String version, String location) {
         this.name = name;
-        this.status = status;
-        this.age = age;
+        this.version = version;
+        this.location = location;
     }
 
     public Long getId() {
@@ -61,20 +52,20 @@ public class Namespace implements Serializable {
         this.name = name;
     }
 
-    public String getStatus() {
-        return status;
+    public String getVersion() {
+        return version;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setVersion(String version) {
+        this.version = version;
     }
 
-    public String getAge() {
-        return age;
+    public String getLocation() {
+        return location;
     }
 
-    public void setAge(String age) {
-        this.age = age;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     // delete når alt virker
@@ -88,10 +79,10 @@ public class Namespace implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Namespace)) {
+        if (!(object instanceof Application)) {
             return false;
         }
-        Namespace other = (Namespace) object;
+        Application other = (Application) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -100,7 +91,7 @@ public class Namespace implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Namespace[ id=" + id + " ]";
+        return "entities.Application[ id=" + id + " ]";
     }
 
 }

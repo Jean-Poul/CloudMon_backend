@@ -50,6 +50,8 @@ public class KubernetesResource {
 //UNDERSØG OM DETTE SKAL SLETTES?
 //    public KubernetesResource() {
 //    }
+
+// slettes højst sandsynligt
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getInfoForAll() {
