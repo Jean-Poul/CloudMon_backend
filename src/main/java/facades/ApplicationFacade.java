@@ -34,7 +34,7 @@ public class ApplicationFacade {
         return instance;
     }
 
-    public ApplicationDTO addApp(String name, String version, String location) throws NoConnectionException {
+    public ApplicationDTO addApplication(String name, String version, String location) throws NoConnectionException {
         EntityManager em = emf.createEntityManager();
 
         Application app = new Application(name, version, location);
