@@ -1,4 +1,3 @@
-
 package facades;
 
 import dto.DeploymentsDTO;
@@ -45,6 +44,7 @@ public class KubernetesFacade {
             return new NamespacesDTO(em.createNamedQuery("Namespace.getAllRows").getResultList());
         } catch (Exception e) {
             // SKAL HUSKE AT LAVE DENNE EXCEPTION RIGTIG I ERRORHANDLING - Mangler stadig noget arbejde
+
             throw new NoConnectionException("No connection to the database");
         } finally {
             em.close();
