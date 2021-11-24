@@ -86,4 +86,34 @@ public class ApplicationFacade {
         }
     }
 
+    public ApplicationDTO updateApplication(ApplicationDTO a) throws NotFoundException {
+        System.out.println("FACADE app: " + "NAME: " + a.getName() + " VERSION: " + a.getVersion() + " ID: " + a.getId());
+        if (isNameInvalid(a.getId(), a.getName(), a.getVersion(), a.getLocation())) {
+            //  throw new MissingInputException("Name, email, password or phone is missing");
+            throw new NotFoundException("Name, version or location is missing");
+        }
+
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            em.getTransaction().begin();
+            Application app = em.find(Application.class, a.getId());
+            if (app == null) {
+                throw new NotFoundException("No application with the provided id was found");
+            } else {
+                app.setName(a.getName());
+                app.setVersion(a.getVersion());
+                app.setLocation(a.getLocation());
+            }
+            em.getTransaction().commit();
+            return new ApplicationDTO(app);
+        } finally {
+            em.close();
+        }
+    }
+
+    private static boolean isNameInvalid(long id, String name, String version, String location) {
+        return (id == 0) || (name.length() == 0) || (version.length() == 0) || (location.length() == 0);
+    }
+
 }
