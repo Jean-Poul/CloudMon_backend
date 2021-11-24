@@ -10,15 +10,19 @@ import com.google.gson.GsonBuilder;
 import dto.ApplicationDTO;
 import dto.ApplicationsDTO;
 import errorhandling.NoConnectionException;
+import errorhandling.NotFoundException;
 import facades.ApplicationFacade;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import utils.EMF_Creator;
 
@@ -77,6 +81,20 @@ public class ApplicationResource {
         ApplicationDTO app = GSON.fromJson(a, ApplicationDTO.class);
         ApplicationDTO addApp = FACADE.addApplication(app.getName(), app.getVersion(), app.getLocation());
         return GSON.toJson(addApp);
+    }
+
+    /**
+     * DELETE *
+     */
+    @DELETE
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Path("delete/{id}")
+    public String deleteApplication(@PathParam("id") long id) throws NotFoundException {
+
+        ApplicationDTO appDelete = FACADE.deleteApplication(id);
+        return GSON.toJson(appDelete);
+
     }
 
 }

@@ -21,7 +21,6 @@ public class ApplicationFacade {
 //    private ApplicationFacade() {
 //
 //    }
-
     /**
      *
      * @param _emf
@@ -66,6 +65,25 @@ public class ApplicationFacade {
             em.close();
         }
         return new ApplicationDTO(app);
+    }
+
+    public ApplicationDTO deleteApplication(long id) throws NotFoundException {
+        EntityManager em = emf.createEntityManager();
+
+        Application app = em.find(Application.class, id);
+
+        if (app == null) {
+            throw new NotFoundException("Could not delete, provided id does not exist");
+        } else {
+            try {
+                em.getTransaction().begin();
+                em.remove(app);
+                em.getTransaction().commit();
+            } finally {
+                em.close();
+            }
+            return new ApplicationDTO(app);
+        }
     }
 
 }
