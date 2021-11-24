@@ -13,7 +13,7 @@ import java.util.Objects;
  * @author jplm
  */
 public class NamespaceDTO {
-    
+
     private Long id;
 
     private Namespace namespace;
@@ -21,7 +21,6 @@ public class NamespaceDTO {
     private String name;
     private String status;
     private String age;
-    
 
 // skal nok slettes men er her hvis noget crasher
 //    public NamespaceDTO() {
