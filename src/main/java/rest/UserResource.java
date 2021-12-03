@@ -3,7 +3,9 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dto.UserDTO;
+import dto.UsersDTO;
 import entities.User;
+import errorhandling.NoConnectionException;
 import facades.UserFacade;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
@@ -46,16 +48,17 @@ public class UserResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("all")
-    public String allUsers() {
-
-        EntityManager em = EMF.createEntityManager();
-        try {
-            TypedQuery<User> query = em.createQuery("select u from User u", entities.User.class);
-            List<User> users = query.getResultList();
-            return "[" + users.size() + "]";
-        } finally {
-            em.close();
-        }
+    public String allUsers() throws NoConnectionException {
+        UsersDTO users = FACADE.getAllUsers();
+        return GSON.toJson(users);
+//        EntityManager em = EMF.createEntityManager();
+//        try {
+//            TypedQuery<User> query = em.createQuery("select u from User u", entities.User.class);
+//            List<User> users = query.getResultList();
+//            return "[" + users.size() + "]";
+//        } finally {
+//            em.close();
+//        }
 
     }
 
