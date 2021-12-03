@@ -1,8 +1,10 @@
 package facades;
 
 import dto.UserDTO;
+import dto.UsersDTO;
 import entities.Role;
 import entities.User;
+import errorhandling.NoConnectionException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import security.errorhandling.AuthenticationException;
@@ -77,6 +79,20 @@ public class UserFacade {
             em.close();
         }
         return new UserDTO(user);
+    }
+
+    public UsersDTO getAllUsers() throws NoConnectionException {
+        // EntityManager em = getEntityManager();
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            return new UsersDTO(em.createNamedQuery("User.getAllRows").getResultList());
+        } catch (Exception e) {
+            // SKAL HUSKE AT LAVE DENNE EXCEPTION RIGTIG I ERRORHANDLING - Mangler stadig noget arbejde
+            throw new NoConnectionException("No connection to the database");
+        } finally {
+            em.close();
+        }
     }
 
 }

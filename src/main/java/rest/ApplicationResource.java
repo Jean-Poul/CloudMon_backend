@@ -97,4 +97,31 @@ public class ApplicationResource {
 
     }
 
+    /**
+     * UPDATE *
+     */
+//    @PUT
+//    @Path("update")
+//    @Produces({MediaType.APPLICATION_JSON})
+//    @Consumes({MediaType.APPLICATION_JSON})
+//    public Response updatePerson(String person) throws NotFoundException {
+//        PersonDTO personDTO = GSON.fromJson(person, PersonDTO.class);
+//        FACADE.updatePerson(personDTO);
+//        return Response.status(Response.Status.OK).entity("Person updated OK").build();
+//    }
+    @PUT
+    @Path("update")
+//@Path("update/{name}")
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+//public String updateApplication(@PathParam("name") String name, String app) throws NotFoundException {
+    public String updateApplication(String app) throws NotFoundException {
+        //   System.out.println("NAME: " + name);
+        System.out.println("APP: " + app);
+        ApplicationDTO appDTO = GSON.fromJson(app, ApplicationDTO.class);
+        //  appDTO.setName(name);
+        ApplicationDTO newApp = FACADE.updateApplication(appDTO);
+        return GSON.toJson(newApp);
+    }
+
 }
