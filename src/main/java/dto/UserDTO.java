@@ -2,6 +2,7 @@ package dto;
 
 import entities.User;
 import java.util.Date;
+import java.util.Objects;
 //import java.sql.Date;
 
 public class UserDTO {
@@ -42,5 +43,40 @@ public class UserDTO {
     public void setLastLoginTime(Date lastLoginTime) {
         this.lastLoginTime = lastLoginTime;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 59 * hash + Objects.hashCode(this.userID);
+        hash = 59 * hash + Objects.hashCode(this.password);
+        hash = 59 * hash + Objects.hashCode(this.lastLoginTime);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final UserDTO other = (UserDTO) obj;
+        if (!Objects.equals(this.userID, other.userID)) {
+            return false;
+        }
+        if (!Objects.equals(this.password, other.password)) {
+            return false;
+        }
+        if (!Objects.equals(this.lastLoginTime, other.lastLoginTime)) {
+            return false;
+        }
+        return true;
+    }
+
+
 
 }
