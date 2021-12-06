@@ -1,5 +1,6 @@
 package facades;
 
+import dto.UserDTO;
 import entities.Role;
 import utils.EMF_Creator;
 import entities.User;
@@ -23,7 +24,6 @@ import security.errorhandling.AuthenticationException;
 public class UserFacadeTest {
 
     private static EntityManagerFactory emf;
-    //private static FacadeExample facade;
     private static UserFacade facade;
     private User u1, u2;
     private Role r1, r2;
@@ -43,7 +43,6 @@ public class UserFacadeTest {
     }
 
     // Setup the DataBase in a known state BEFORE EACH TEST
-    //TODO -- Make sure to change the code below to use YOUR OWN entity class
     @BeforeEach
     public void setUp() {
         EntityManager em = emf.createEntityManager();
@@ -53,8 +52,8 @@ public class UserFacadeTest {
             em.createNamedQuery("Role.deleteAllRows").executeUpdate();
             r1 = new Role("user");
             r2 = new Role("admin");
-            u1 = new User("testmand1", "storFedAgurk");
-            u2 = new User("testmand2", "lilleFedTomat");
+            u1 = new User("testuser1", "testpass1");
+            u2 = new User("testuser2", "testpass2");
 
             u1.addRole(r1);
             u2.addRole(r2);
@@ -76,7 +75,7 @@ public class UserFacadeTest {
     }
 
     @Test
-    public void testAFacadeMethod() {
+    public void testUserCount() {
         assertEquals(2, facade.getUserCount(), "Expects two rows in the database");
     }
 
@@ -84,14 +83,43 @@ public class UserFacadeTest {
     public void testGetVeryfiedUser() throws AuthenticationException {
         String pass = u1.getUserPass();
 
-        assertEquals(u1.getUserName(), "testmand1");
+        assertEquals(u1.getUserName(), "testuser1");
         assertEquals(u1.getUserPass(), pass);
-        assertThat(u1.getUserName(), is(not("pollemand")));
-        assertThat(u1.getUserPass(), is(not("lilleGrimTomat")));
+        assertThat(u1.getUserName(), is(not("Batman")));
+        assertThat(u1.getUserPass(), is(not("Robin")));
     }
 
     @Test
     public void testGetRoleList() {
         assertEquals(u1.getRolesAsStrings().get(0), r1.getRoleName());
     }
+
+    @Test
+    public void testAddUser() throws Exception {
+        String userName = "ping";
+        String pass = "pong";
+
+        User uls = new User(userName, pass);
+        UserDTO u = new UserDTO(uls);
+
+        System.out.println(u);
+
+        facade.addUser(userName, pass);
+
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+
+            User us = em.find(User.class, userName);
+            System.out.println(us.getUserName());
+
+            em.getTransaction().commit();
+
+            assertEquals(us, em.find(User.class, userName));
+            assertEquals(3, facade.getUserCount(), "Expects three rows in the database");
+        } finally {
+            em.close();
+        }
+    }
+
 }
