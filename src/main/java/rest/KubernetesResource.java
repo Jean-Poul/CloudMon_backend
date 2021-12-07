@@ -84,7 +84,7 @@ public class KubernetesResource {
             nsDTO = FACADE.getAllNamespaces();
 
             if (nsDTO.getAll().isEmpty()) {
-                java.nio.file.Path path = Paths.get("C:\\Users\\jplm\\Desktop\\Afsluttende datamatiker eksamen\\Backend\\src\\main\\java\\rest\\ns.txt");
+                java.nio.file.Path path = Paths.get("C:\\Users\\alexa\\OneDrive\\Dokumenter\\DAT-E\\Hovedopgave\\CloudMon_backend\\src\\main\\java\\rest\\ns.txt");
                 System.out.println(path);
 
                 BufferedReader reader = Files.newBufferedReader(path);
@@ -137,7 +137,7 @@ public class KubernetesResource {
 
             if (servicesDTO.getAll().isEmpty()) {
 
-                java.nio.file.Path path = Paths.get("C:\\Users\\jplm\\Desktop\\Afsluttende datamatiker eksamen\\Backend\\src\\main\\java\\rest\\svc.txt");
+                java.nio.file.Path path = Paths.get("C:\\Users\\alexa\\OneDrive\\Dokumenter\\DAT-E\\Hovedopgave\\CloudMon_backend\\src\\main\\java\\rest\\svc.txt");
                 System.out.println(path);
 
                 BufferedReader reader = Files.newBufferedReader(path);
@@ -195,7 +195,7 @@ public class KubernetesResource {
 
             if (deploymentsDTO.getAll().isEmpty()) {
 
-                java.nio.file.Path path = Paths.get("C:\\Users\\jplm\\Desktop\\Afsluttende datamatiker eksamen\\Backend\\src\\main\\java\\rest\\deploy.txt");
+                java.nio.file.Path path = Paths.get("C:\\Users\\alexa\\OneDrive\\Dokumenter\\DAT-E\\Hovedopgave\\CloudMon_backend\\src\\main\\java\\rest\\deploy.txt");
                 System.out.println(path);
 
                 BufferedReader reader = Files.newBufferedReader(path);
@@ -252,7 +252,7 @@ public class KubernetesResource {
 
             if (podsDTO.getAll().isEmpty()) {
 
-                java.nio.file.Path path = Paths.get("C:\\Users\\jplm\\Desktop\\Afsluttende datamatiker eksamen\\Backend\\src\\main\\java\\rest\\pod.txt");
+                java.nio.file.Path path = Paths.get("C:\\Users\\alexa\\OneDrive\\Dokumenter\\DAT-E\\Hovedopgave\\CloudMon_backend\\src\\main\\java\\rest\\pod.txt");
                 System.out.println(path);
 
                 BufferedReader reader = Files.newBufferedReader(path);

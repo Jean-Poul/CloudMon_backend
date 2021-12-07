@@ -123,5 +123,24 @@ public class ApplicationResource {
         ApplicationDTO newApp = FACADE.updateApplication(appDTO);
         return GSON.toJson(newApp);
     }
+    
+//////////////////////////////////////////////////////////////////////////////////////////////////////   
+    @Path("{appId}")
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    public String getApp(@PathParam("appId") long appId) throws NotFoundException {
+        return GSON.toJson(FACADE.getApp(appId));
+    }
+    
+    @PUT
+    @Path("update/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    public String updateApp(@PathParam("id") long id, String name, String version, String location) throws NotFoundException {
+        ApplicationDTO appDTO = GSON.fromJson(name, ApplicationDTO.class);
+        appDTO.setId(id);
+        ApplicationDTO appNew = FACADE.editApp(appDTO);
+        return GSON.toJson(appNew);
+    }
 
 }

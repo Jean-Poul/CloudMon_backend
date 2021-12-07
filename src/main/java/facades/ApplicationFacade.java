@@ -115,5 +115,44 @@ public class ApplicationFacade {
     private static boolean isNameInvalid(long id, String name, String version, String location) {
         return (id == 0) || (name.length() == 0) || (version.length() == 0) || (location.length() == 0);
     }
+    
+    
+    
+    //////////////////////////////////////////////////////////////////////////////////////////////////////   
+    
+        public ApplicationDTO getApp(long appId) throws NotFoundException {
+        EntityManager em = emf.createEntityManager();
+        Application app = em.find(Application.class, appId);
+        if (app == null) {
+            throw new NotFoundException("No App with provided App name found");
+        } else {
+            try {
+                return new ApplicationDTO(app);
+            } finally {
+                em.close();
+            }
+        }
+    }
+        
+        public ApplicationDTO editApp(ApplicationDTO a) throws NotFoundException {
+        if (isNameInvalid(a.getId(), a.getName(), a.getVersion(), a.getLocation())) {
+        }
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            Application app = em.find(Application.class, a.getId());
+            if (app == null) {
+                throw new NotFoundException("No App with provided id found");
+            } else {
+                app.setName(a.getName());
+                app.setVersion(a.getVersion());
+                app.setLocation(a.getLocation());
+            }
+            em.getTransaction().commit();
+            return new ApplicationDTO(app);
+        } finally {
+            em.close();
+        }
+    }
 
 }
