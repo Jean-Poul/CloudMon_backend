@@ -20,6 +20,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import utils.EMF_Creator;
 
@@ -41,7 +42,25 @@ public class UserResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getInfoForAll() {
-        return "{\"msg\":\"Hello anonymous\"}";
+        return "{\"msg\":\"Hello from users\"}";
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/ping")
+    public Response ping() {
+        return Response.ok().entity("Service online").build();
+    }
+
+    @Path("count")
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    public String getUserCount() {
+
+        long count = FACADE.getUserCount();
+
+        return "{\"count\":" + count + "}";  //Done manually so no need for a DTO
+
     }
 
     // Just to verify if the database is setup

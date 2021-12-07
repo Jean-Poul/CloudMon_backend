@@ -61,7 +61,7 @@ public class LoginEndpoint {
             User u = em.find(User.class, user.getUserName());
 
             System.out.println("USER:::: " + u.getLast_loginDate());
-// user med navn, pass, last_login
+
             //  Date date = new Date();
             java.util.Date date = new java.util.Date();
             u.setLast_loginDate(date);

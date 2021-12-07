@@ -1,13 +1,17 @@
 package facades;
 
 import dto.UserDTO;
+import dto.UsersDTO;
 import entities.Role;
 import utils.EMF_Creator;
 import entities.User;
+import errorhandling.NoConnectionException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import static org.hamcrest.MatcherAssert.assertThat;
+import org.hamcrest.Matchers;
+import static org.hamcrest.Matchers.everyItem;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import org.junit.jupiter.api.AfterAll;
@@ -120,6 +124,20 @@ public class UserFacadeTest {
         } finally {
             em.close();
         }
+    }
+
+    @Test
+    public void testGetAllUsers() throws NoConnectionException {
+
+        UsersDTO usersDTO = facade.getAllUsers();
+        List<UserDTO> list = usersDTO.getAll();
+        System.out.println("Liste af users: " + list);
+        assertThat(list, everyItem(Matchers.hasProperty("password")));
+        assertThat(list, everyItem(Matchers.hasProperty("lastLoginTime")));
+        assertThat(list, Matchers.hasItems(Matchers.<UserDTO>hasProperty("userID", is("testuser1")),
+                Matchers.<UserDTO>hasProperty("userID", is("testuser2"))
+        ));
+
     }
 
 }
