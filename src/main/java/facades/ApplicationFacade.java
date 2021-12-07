@@ -18,9 +18,10 @@ public class ApplicationFacade {
     private static EntityManagerFactory emf;
     private static ApplicationFacade instance;
 
-//    private ApplicationFacade() {
-//
-//    }
+    private ApplicationFacade() {
+
+    }
+
     /**
      *
      * @param _emf

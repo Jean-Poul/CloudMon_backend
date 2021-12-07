@@ -30,8 +30,13 @@ public class UserFacade {
         return instance;
     }
 
+    private EntityManager getEntityManager() {
+        return emf.createEntityManager();
+    }
+
     public long getUserCount() {
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = getEntityManager();
+// EntityManager em = emf.createEntityManager();
         try {
             long userCount = (long) em.createQuery("SELECT COUNT(u) FROM User u").getSingleResult();
             return userCount;
@@ -41,7 +46,8 @@ public class UserFacade {
     }
 
     public User getVeryfiedUser(String username, String password) throws AuthenticationException {
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = getEntityManager();
+//EntityManager em = emf.createEntityManager();
         User user;
         try {
             user = em.find(User.class, username);
@@ -55,7 +61,8 @@ public class UserFacade {
     }
 
     public UserDTO addUser(String userName, String password) throws AuthenticationException {
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = getEntityManager();
+//EntityManager em = emf.createEntityManager();
         User user;
 
         try {
@@ -82,8 +89,8 @@ public class UserFacade {
     }
 
     public UsersDTO getAllUsers() throws NoConnectionException {
-        // EntityManager em = getEntityManager();
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = getEntityManager();
+        //EntityManager em = emf.createEntityManager();
 
         try {
             return new UsersDTO(em.createNamedQuery("User.getAllRows").getResultList());
