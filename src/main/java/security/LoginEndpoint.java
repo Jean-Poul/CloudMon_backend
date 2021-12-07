@@ -10,8 +10,6 @@ import com.nimbusds.jose.JWSSigner;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
-import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
-import dto.UserDTO;
 import facades.UserFacade;
 import java.util.Date;
 import java.util.List;
@@ -56,17 +54,23 @@ public class LoginEndpoint {
             responseJson.addProperty("token", token);
 
             EntityManager em = EMF.createEntityManager();
+User u = em.find(User.class, user.getUserName());
 
-            System.out.println("TOKEN ::: " + token);
-            User u = em.find(User.class, user.getUserName());
+            try {
 
-            System.out.println("USER:::: " + u.getLast_loginDate());
+                System.out.println("TOKEN ::: " + token);
+                
 
-            //  Date date = new Date();
-            java.util.Date date = new java.util.Date();
-            u.setLast_loginDate(date);
+                System.out.println("USER ::: " + u.getLast_loginDate());
 
-            System.out.println("NEW DATE:::::::::" + u.getLast_loginDate());
+                //  Date date = new Date();
+                java.util.Date date = new java.util.Date();
+                u.setLast_loginDate(date);
+
+                System.out.println("NEW DATE ::: " + u.getLast_loginDate());
+            } catch (Exception e) {
+            }
+
             try {
                 em.getTransaction().begin();
                 em.merge(u);

@@ -18,8 +18,9 @@ public class KubernetesFacade {
     private static KubernetesFacade instance;
 
 //Skal nok slettes men er her hvis noget går galt
-//    private KubernetesFacade() {
-//    }
+    private KubernetesFacade() {
+    }
+
     /**
      *
      * @param _emf
