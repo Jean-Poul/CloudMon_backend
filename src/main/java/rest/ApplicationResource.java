@@ -109,22 +109,23 @@ public class ApplicationResource {
 //        FACADE.updatePerson(personDTO);
 //        return Response.status(Response.Status.OK).entity("Person updated OK").build();
 //    }
-    @PUT
-    @Path("update")
-//@Path("update/{name}")
-    @Produces({MediaType.APPLICATION_JSON})
-    @Consumes({MediaType.APPLICATION_JSON})
-//public String updateApplication(@PathParam("name") String name, String app) throws NotFoundException {
-    public String updateApplication(String app) throws NotFoundException {
-        //   System.out.println("NAME: " + name);
-        System.out.println("APP: " + app);
-        ApplicationDTO appDTO = GSON.fromJson(app, ApplicationDTO.class);
-        //  appDTO.setName(name);
-        ApplicationDTO newApp = FACADE.updateApplication(appDTO);
-        return GSON.toJson(newApp);
-    }
+//    @PUT
+//    @Path("update")
+////@Path("update/{name}")
+//    @Produces({MediaType.APPLICATION_JSON})
+//    @Consumes({MediaType.APPLICATION_JSON})
+////public String updateApplication(@PathParam("name") String name, String app) throws NotFoundException {
+//    public String updateApplication(String app) throws NotFoundException {
+//        //   System.out.println("NAME: " + name);
+//        System.out.println("APP: " + app);
+//        ApplicationDTO appDTO = GSON.fromJson(app, ApplicationDTO.class);
+//        //  appDTO.setName(name);
+//        ApplicationDTO newApp = FACADE.updateApplication(appDTO);
+//        return GSON.toJson(newApp);
+//    }
     
 //////////////////////////////////////////////////////////////////////////////////////////////////////   
+    
     @Path("{appId}")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
@@ -136,10 +137,10 @@ public class ApplicationResource {
     @Path("update/{id}")
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
-    public String updateApp(@PathParam("id") long id, String name, String version, String location) throws NotFoundException {
+    public String updateApp(@PathParam("id") long id, String name) throws NotFoundException {
         ApplicationDTO appDTO = GSON.fromJson(name, ApplicationDTO.class);
         appDTO.setId(id);
-        ApplicationDTO appNew = FACADE.editApp(appDTO);
+        ApplicationDTO appNew = FACADE.updateApplication(appDTO);
         return GSON.toJson(appNew);
     }
 

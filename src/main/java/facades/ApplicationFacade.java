@@ -134,25 +134,25 @@ public class ApplicationFacade {
         }
     }
         
-        public ApplicationDTO editApp(ApplicationDTO a) throws NotFoundException {
-        if (isNameInvalid(a.getId(), a.getName(), a.getVersion(), a.getLocation())) {
-        }
-        EntityManager em = emf.createEntityManager();
-        try {
-            em.getTransaction().begin();
-            Application app = em.find(Application.class, a.getId());
-            if (app == null) {
-                throw new NotFoundException("No App with provided id found");
-            } else {
-                app.setName(a.getName());
-                app.setVersion(a.getVersion());
-                app.setLocation(a.getLocation());
-            }
-            em.getTransaction().commit();
-            return new ApplicationDTO(app);
-        } finally {
-            em.close();
-        }
-    }
+//        public ApplicationDTO editApp(ApplicationDTO a) throws NotFoundException {
+//        if (isNameInvalid(a.getId(), a.getName(), a.getVersion(), a.getLocation())) {
+//        }
+//        EntityManager em = emf.createEntityManager();
+//        try {
+//            em.getTransaction().begin();
+//            Application app = em.find(Application.class, a.getId());
+//            if (app == null) {
+//                throw new NotFoundException("No App with provided id found");
+//            } else {
+//                app.setName(a.getName());
+//                app.setVersion(a.getVersion());
+//                app.setLocation(a.getLocation());
+//            }
+//            em.getTransaction().commit();
+//            return new ApplicationDTO(app);
+//        } finally {
+//            em.close();
+//        }
+//    }
 
 }
