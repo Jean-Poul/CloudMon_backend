@@ -54,22 +54,17 @@ public class LoginEndpoint {
             responseJson.addProperty("token", token);
 
             EntityManager em = EMF.createEntityManager();
-User u = em.find(User.class, user.getUserName());
+            User u = em.find(User.class, user.getUserName());
 
-            try {
+            System.out.println("TOKEN ::: " + token);
 
-                System.out.println("TOKEN ::: " + token);
-                
+            System.out.println("USER ::: " + u.getLast_loginDate());
 
-                System.out.println("USER ::: " + u.getLast_loginDate());
+            //  Date date = new Date();
+            java.util.Date date = new java.util.Date();
+            u.setLast_loginDate(date);
 
-                //  Date date = new Date();
-                java.util.Date date = new java.util.Date();
-                u.setLast_loginDate(date);
-
-                System.out.println("NEW DATE ::: " + u.getLast_loginDate());
-            } catch (Exception e) {
-            }
+            System.out.println("NEW DATE ::: " + u.getLast_loginDate());
 
             try {
                 em.getTransaction().begin();
@@ -98,7 +93,7 @@ User u = em.find(User.class, user.getUserName());
         }
         String rolesAsString = res.length() > 0 ? res.substring(0, res.length() - 1) : "";
 //        String issuer = "CA3-gruppe-8";
-        String issuer = "CloudMon";
+        String issuer = "cloudmon";
 
         JWSSigner signer = new MACSigner(SharedSecret.getSharedKey());
         Date date = new Date();

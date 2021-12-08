@@ -35,9 +35,13 @@ public class ApplicationFacade {
         return instance;
     }
 
+    private EntityManager getEntityManager() {
+        return emf.createEntityManager();
+    }
+
     public ApplicationsDTO getAllApplications() throws NoConnectionException {
-        // EntityManager em = getEntityManager();
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = getEntityManager();
+        //      EntityManager em = emf.createEntityManager();
 
         try {
             return new ApplicationsDTO(em.createNamedQuery("Application.getAllRows").getResultList());
@@ -50,7 +54,8 @@ public class ApplicationFacade {
     }
 
     public ApplicationDTO addApplication(String name, String version, String location) throws NoConnectionException {
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = getEntityManager();
+//EntityManager em = emf.createEntityManager();
 
         Application app = new Application(name, version, location);
 
@@ -69,7 +74,8 @@ public class ApplicationFacade {
     }
 
     public ApplicationDTO deleteApplication(long id) throws NotFoundException {
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = getEntityManager();
+//EntityManager em = emf.createEntityManager();
 
         Application app = em.find(Application.class, id);
 
@@ -94,7 +100,8 @@ public class ApplicationFacade {
             throw new NotFoundException("Name, version or location is missing");
         }
 
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = getEntityManager();
+//EntityManager em = emf.createEntityManager();
 
         try {
             em.getTransaction().begin();

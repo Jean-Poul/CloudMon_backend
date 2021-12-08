@@ -16,7 +16,6 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -96,6 +95,7 @@ public class UserFacadeTest {
     @Test
     public void testGetRoleList() {
         assertEquals(u1.getRolesAsStrings().get(0), r1.getRoleName());
+        assertEquals(u2.getRolesAsStrings().get(0), r2.getRoleName());
     }
 
     @Test
@@ -128,16 +128,16 @@ public class UserFacadeTest {
 
     @Test
     public void testGetAllUsers() throws NoConnectionException {
-
         UsersDTO usersDTO = facade.getAllUsers();
         List<UserDTO> list = usersDTO.getAll();
+
         System.out.println("Liste af users: " + list);
+
         assertThat(list, everyItem(Matchers.hasProperty("password")));
         assertThat(list, everyItem(Matchers.hasProperty("lastLoginTime")));
         assertThat(list, Matchers.hasItems(Matchers.<UserDTO>hasProperty("userID", is("testuser1")),
                 Matchers.<UserDTO>hasProperty("userID", is("testuser2"))
         ));
-
     }
 
 }
