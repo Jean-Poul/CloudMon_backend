@@ -4,14 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dto.UserDTO;
 import dto.UsersDTO;
-import entities.User;
 import errorhandling.NoConnectionException;
+import errorhandling.NotFoundException;
 import facades.UserFacade;
-import java.util.List;
 import javax.annotation.security.RolesAllowed;
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -19,11 +16,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import utils.EMF_Creator;
 
+/**
+ * REST Web Service
+ *
+ */
 @Path("users")
 public class UserResource {
 
@@ -52,10 +54,10 @@ public class UserResource {
         return Response.ok().entity("Service online").build();
     }
 
-    @Path("count")
+    @Path("/count")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public String getUserCount() {
+    public String getUserCount() throws NoConnectionException {
 
         long count = FACADE.getUserCount();
 
@@ -66,7 +68,7 @@ public class UserResource {
     // Just to verify if the database is setup
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("all")
+    @Path("/all")
     public String allUsers() throws NoConnectionException {
         UsersDTO users = FACADE.getAllUsers();
         return GSON.toJson(users);
@@ -83,20 +85,22 @@ public class UserResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("user")
+    @Path("/user")
     @RolesAllowed("user")
     public String getFromUser() {
         String thisuser = securityContext.getUserPrincipal().getName();
-        return "{\"msg\": \"Hello to User: " + thisuser + "\"}";
+        return "{\"msg\": \"Hej " + thisuser + " du er ved at logge ud.\"}";
+        //return "{\"msg\": \"Hello to User: " + thisuser + "\"}";
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("admin")
+    @Path("/admin")
     @RolesAllowed("admin")
     public String getFromAdmin() {
         String thisuser = securityContext.getUserPrincipal().getName();
-        return "{\"msg\": \"Hello to (admin) User: " + thisuser + "\"}";
+        return "{\"msg\": \"Hej " + thisuser + " du er ved at logge ud.\"}";
+        //return "{\"msg\": \"Hello to (admin) User: " + thisuser + "\"}";
     }
 
     @POST
@@ -106,6 +110,13 @@ public class UserResource {
         UserDTO u = GSON.fromJson(user, UserDTO.class);
         UserDTO addUser = FACADE.addUser(u.getUserID(), u.getPassword());
         return GSON.toJson(addUser);
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/username/{name}")
+    public String getUser(@PathParam("name") String name) throws NoConnectionException, NotFoundException {
+        return GSON.toJson(FACADE.getUser(name));
     }
 
 }

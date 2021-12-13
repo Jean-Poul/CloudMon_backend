@@ -5,6 +5,7 @@ import entities.Role;
 import entities.User;
 import io.restassured.RestAssured;
 import static io.restassured.RestAssured.given;
+import io.restassured.http.ContentType;
 import io.restassured.parsing.Parser;
 import java.net.URI;
 import java.util.List;
@@ -24,7 +25,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 import utils.EMF_Creator;
 
 public class UserResourceTest {
@@ -46,7 +46,7 @@ public class UserResourceTest {
 
     @BeforeAll
     public static void setUpClass() {
-//This method must be called before you request the EntityManagerFactory
+        //This method must be called before you request the EntityManagerFactory
         EMF_Creator.startREST_TestWithDB();
         emf = EMF_Creator.createEntityManagerFactoryForTest();
 
@@ -59,7 +59,7 @@ public class UserResourceTest {
 
     @AfterAll
     public static void closeTestServer() {
-//Don't forget this, if you called its counterpart in @BeforeAll
+        //Don't forget this, if you called its counterpart in @BeforeAll
         EMF_Creator.endREST_TestWithDB();
         httpServer.shutdownNow();
     }
@@ -67,6 +67,7 @@ public class UserResourceTest {
     @BeforeEach
     public void setUp() {
         EntityManager em = emf.createEntityManager();
+
         try {
             em.getTransaction().begin();
             em.createNamedQuery("User.deleteAllRows").executeUpdate();
@@ -98,10 +99,12 @@ public class UserResourceTest {
     public void tearDown() {
     }
 
+    /**
+     * Test of endpoint /users, of class UserResource.
+     */
     //@Disabled
     @Test
     public void testServerIsUp() {
-
         System.out.println("Testing if server up");
 
         given()
@@ -109,9 +112,11 @@ public class UserResourceTest {
                 .get("/users")
                 .then()
                 .statusCode(200);
-
     }
 
+    /**
+     * Test of Ping method, of class UserResource.
+     */
     //@Disabled
     @Test
     public void testPing() {
@@ -123,9 +128,11 @@ public class UserResourceTest {
                 .then()
                 .statusCode(200)
                 .body(equalTo("Service online"));
-
     }
 
+    /**
+     * Test of Count method, of class UserResource.
+     */
     //@Disabled
     @Test
     public void testCount() throws Exception {
@@ -137,7 +144,22 @@ public class UserResourceTest {
                 .assertThat()
                 .statusCode(HttpStatus.OK_200.getStatusCode())
                 .body("count", equalTo(3));
+    }
 
+    /**
+     * Test to make sure an unwanted person can't get information without proper authentication
+     */
+//@Disabled
+    @Test
+    public void testGetRole() throws Exception {
+// Can not get role without being logged in.
+// We test login with Postman
+        System.out.println("Get null user role info when not logged in");
+        given()
+                .when()
+                .get("users/" + "user")
+                .then().statusCode(403)
+                .body("roleName", equalTo(null));
     }
 
     /**
@@ -180,34 +202,57 @@ public class UserResourceTest {
         assertThat(usersDTOs, hasSize(3));
     }
 
+    //This is how we hold on to the token after login, similar to that a client must store the token somewhere
+    private static String securityToken;
+
     /**
      * Test of getFromUser method, of class UserResource.
      */
-//    @Test
-//    public void testGetFromUser() {
-//        System.out.println("Get from user");
-//        UserResource instance = new UserResource();
-//        String expResult = "";
-//        String result = instance.getFromUser();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of getFromAdmin method, of class UserResource.
-//     */
-//    @Test
-//    public void testGetFromAdmin() {
-//        System.out.println("getFromAdmin");
-//        UserResource instance = new UserResource();
-//        String expResult = "";
-//        String result = instance.getFromAdmin();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
+    @Test
+    public void testGetFromUser() {
+        System.out.println("Get from user");
+
+        String json = String.format("{username: \"%s\", password: \"%s\"}", "testuser1", "testpass1");
+        securityToken = given()
+                .contentType("application/json")
+                .body(json)
+                .when().post("/login")
+                .then()
+                .extract().path("token");
+
+        given()
+                .contentType("application/json")
+                .header("x-access-token", securityToken)
+                .when()
+                .get("/users/user").then()
+                .statusCode(200)
+                .body("msg", equalTo("Hej testuser1 du er ved at logge ud."));
+    }
+
+    /**
+     * Test of getFromAdmin method, of class UserResource.
+     */
+    @Test
+    public void testGetFromAdmin() {
+        System.out.println("Get from admin");
+
+        String json = String.format("{username: \"%s\", password: \"%s\"}", "testuser2", "testpass2");
+        securityToken = given()
+                .contentType("application/json")
+                .body(json)
+                .when().post("/login")
+                .then()
+                .extract().path("token");
+
+        given()
+                .contentType("application/json")
+                .accept(ContentType.JSON)
+                .header("x-access-token", securityToken)
+                .when()
+                .get("/users/admin").then()
+                .statusCode(200)
+                .body("msg", equalTo("Hej testuser2 du er ved at logge ud."));
+    }
 
     /**
      * Test of addUser method, of class UserResource.
@@ -227,6 +272,26 @@ public class UserResourceTest {
                 .then()
                 .statusCode(HttpStatus.OK_200.getStatusCode())
                 .body("userID", equalTo("Batman"));
+    }
+
+    /**
+     * Test of getUser method, of class UserResource.
+     */
+    @Test
+    public void testGetUser() {
+        System.out.println("Get user");
+
+        UserDTO usr = new UserDTO(u1);
+        String expected = usr.getUserID();
+
+        given()
+                .contentType("application/json")
+                .when()
+                .get("users/username/" + u1.getUserName())
+                .then()
+                .statusCode(HttpStatus.OK_200.getStatusCode())
+                .assertThat()
+                .body("userID", equalTo(expected));
     }
 
 }

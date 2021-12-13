@@ -5,6 +5,7 @@ import dto.UsersDTO;
 import entities.Role;
 import entities.User;
 import errorhandling.NoConnectionException;
+import errorhandling.NotFoundException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import security.errorhandling.AuthenticationException;
@@ -34,12 +35,15 @@ public class UserFacade {
         return emf.createEntityManager();
     }
 
-    public long getUserCount() {
+    public long getUserCount() throws NoConnectionException {
         EntityManager em = getEntityManager();
 // EntityManager em = emf.createEntityManager();
         try {
             long userCount = (long) em.createQuery("SELECT COUNT(u) FROM User u").getSingleResult();
             return userCount;
+        } catch (Exception e) {
+            // SKAL HUSKE AT LAVE DENNE EXCEPTION RIGTIG I ERRORHANDLING - Mangler stadig noget arbejde
+            throw new NoConnectionException("No connection to the database");
         } finally {
             em.close();
         }
@@ -60,7 +64,7 @@ public class UserFacade {
         return user;
     }
 
-    public UserDTO addUser(String userName, String password) throws AuthenticationException {
+    public UserDTO addUser(String userName, String password) throws AuthenticationException, NoConnectionException {
         EntityManager em = getEntityManager();
 //EntityManager em = emf.createEntityManager();
         User user;
@@ -82,7 +86,10 @@ public class UserFacade {
                     throw new AuthenticationException("User exist");
                 }
             }
-        } finally {
+        }catch (Exception e) {
+            // SKAL HUSKE AT LAVE DENNE EXCEPTION RIGTIG I ERRORHANDLING - Mangler stadig noget arbejde
+            throw new NoConnectionException("No connection to the database");
+        }  finally {
             em.close();
         }
         return new UserDTO(user);
@@ -91,7 +98,6 @@ public class UserFacade {
     public UsersDTO getAllUsers() throws NoConnectionException {
         EntityManager em = getEntityManager();
         //EntityManager em = emf.createEntityManager();
-
         try {
             return new UsersDTO(em.createNamedQuery("User.getAllRows").getResultList());
         } catch (Exception e) {
@@ -99,6 +105,25 @@ public class UserFacade {
             throw new NoConnectionException("No connection to the database");
         } finally {
             em.close();
+        }
+    }
+
+    public UserDTO getUser(String userName) throws NotFoundException, NoConnectionException {
+        EntityManager em = emf.createEntityManager();
+
+        User u = em.find(User.class, userName);
+
+        if (u == null) {
+            throw new NotFoundException("No User with provided username found");
+        } else {
+            try {
+                return new UserDTO(u);
+            } catch (Exception e) {
+                // SKAL HUSKE AT LAVE DENNE EXCEPTION RIGTIG I ERRORHANDLING - Mangler stadig noget arbejde
+                throw new NoConnectionException("No connection to the database");
+            } finally {
+                em.close();
+            }
         }
     }
 
