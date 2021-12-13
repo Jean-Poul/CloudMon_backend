@@ -8,12 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-/**
- *
- * @author jplm
- */
 @Entity
 @Table(name = "application")
+@NamedQuery(name = "Application.deleteAllRows", query = "DELETE from Application")
 @NamedQuery(name = "Application.getAllRows", query = "SELECT p from Application p")
 public class Application implements Serializable {
 

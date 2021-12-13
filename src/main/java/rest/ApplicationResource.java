@@ -24,12 +24,12 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import utils.EMF_Creator;
 
 /**
  * REST Web Service
  *
- * @author jplm
  */
 @Path("apps")
 public class ApplicationResource {
@@ -53,14 +53,25 @@ public class ApplicationResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getInfoForAll() {
-        return "{\"msg\":\"Hello anonymous\"}";
+        return "{\"msg\":\"Hello from application\"}";
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("test")
-    public String test() {
-        return "Hello from application";
+    @Path("/ping")
+    public Response ping() {
+        return Response.ok().entity("Service online").build();
+    }
+
+    @Path("/count")
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    public String getApplicationCount() throws NoConnectionException {
+
+        long count = FACADE.getApplicationCount();
+
+        return "{\"count\":" + count + "}";  //Done manually so no need for a DTO
+
     }
 
     @GET
@@ -69,6 +80,13 @@ public class ApplicationResource {
     public String getAllApplications() throws NoConnectionException {
         ApplicationsDTO apps = FACADE.getAllApplications();
         return GSON.toJson(apps);
+    }
+
+    @Path("{appId}")
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    public String getApplication(@PathParam("appId") long appId) throws NotFoundException {
+        return GSON.toJson(FACADE.getApplication(appId));
     }
 
     /**
@@ -91,15 +109,24 @@ public class ApplicationResource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Path("delete/{id}")
     public String deleteApplication(@PathParam("id") long id) throws NotFoundException {
-
         ApplicationDTO appDelete = FACADE.deleteApplication(id);
         return GSON.toJson(appDelete);
-
     }
 
     /**
      * UPDATE *
      */
+    @PUT
+    @Path("update/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    public String updateApplication(@PathParam("id") long id, String name) throws NotFoundException {
+        ApplicationDTO appDTO = GSON.fromJson(name, ApplicationDTO.class);
+        appDTO.setId(id);
+        ApplicationDTO appNew = FACADE.updateApplication(appDTO);
+        return GSON.toJson(appNew);
+    }
+
 //    @PUT
 //    @Path("update")
 //    @Produces({MediaType.APPLICATION_JSON})
@@ -109,19 +136,19 @@ public class ApplicationResource {
 //        FACADE.updatePerson(personDTO);
 //        return Response.status(Response.Status.OK).entity("Person updated OK").build();
 //    }
-    @PUT
-    @Path("update")
-//@Path("update/{name}")
-    @Produces({MediaType.APPLICATION_JSON})
-    @Consumes({MediaType.APPLICATION_JSON})
-//public String updateApplication(@PathParam("name") String name, String app) throws NotFoundException {
-    public String updateApplication(String app) throws NotFoundException {
-        //   System.out.println("NAME: " + name);
-        System.out.println("APP: " + app);
-        ApplicationDTO appDTO = GSON.fromJson(app, ApplicationDTO.class);
-        //  appDTO.setName(name);
-        ApplicationDTO newApp = FACADE.updateApplication(appDTO);
-        return GSON.toJson(newApp);
-    }
+//    @PUT
+//    @Path("update")
+////@Path("update/{name}")
+//    @Produces({MediaType.APPLICATION_JSON})
+//    @Consumes({MediaType.APPLICATION_JSON})
+////public String updateApplication(@PathParam("name") String name, String app) throws NotFoundException {
+//    public String updateApplication(String app) throws NotFoundException {
+//        //   System.out.println("NAME: " + name);
+//        System.out.println("APP: " + app);
+//        ApplicationDTO appDTO = GSON.fromJson(app, ApplicationDTO.class);
+//        //  appDTO.setName(name);
+//        ApplicationDTO newApp = FACADE.updateApplication(appDTO);
+//        return GSON.toJson(newApp);
+//    }
 
 }

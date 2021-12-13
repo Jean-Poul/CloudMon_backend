@@ -7,12 +7,8 @@ import errorhandling.NoConnectionException;
 import errorhandling.NotFoundException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import security.errorhandling.AuthenticationException;
 
-/**
- *
- * @author jplm
- */
+
 public class ApplicationFacade {
 
     private static EntityManagerFactory emf;
@@ -37,6 +33,20 @@ public class ApplicationFacade {
 
     private EntityManager getEntityManager() {
         return emf.createEntityManager();
+    }
+
+    public long getApplicationCount() throws NoConnectionException {
+        EntityManager em = getEntityManager();
+// EntityManager em = emf.createEntityManager();
+        try {
+            long appCount = (long) em.createQuery("SELECT COUNT(a) FROM Application a").getSingleResult();
+            return appCount;
+        } catch (Exception e) {
+            // SKAL HUSKE AT LAVE DENNE EXCEPTION RIGTIG I ERRORHANDLING - Mangler stadig noget arbejde
+            throw new NoConnectionException("No connection to the database");
+        } finally {
+            em.close();
+        }
     }
 
     public ApplicationsDTO getAllApplications() throws NoConnectionException {
@@ -95,6 +105,7 @@ public class ApplicationFacade {
 
     public ApplicationDTO updateApplication(ApplicationDTO a) throws NotFoundException {
         System.out.println("FACADE app: " + "NAME: " + a.getName() + " VERSION: " + a.getVersion() + " ID: " + a.getId());
+
         if (isNameInvalid(a.getId(), a.getName(), a.getVersion(), a.getLocation())) {
             //  throw new MissingInputException("Name, email, password or phone is missing");
             throw new NotFoundException("Name, version or location is missing");
@@ -117,6 +128,21 @@ public class ApplicationFacade {
             return new ApplicationDTO(app);
         } finally {
             em.close();
+        }
+    }
+
+    public ApplicationDTO getApplication(long appId) throws NotFoundException {
+        EntityManager em = emf.createEntityManager();
+        Application app = em.find(Application.class, appId);
+
+        if (app == null) {
+            throw new NotFoundException("No App with provided App name found");
+        } else {
+            try {
+                return new ApplicationDTO(app);
+            } finally {
+                em.close();
+            }
         }
     }
 

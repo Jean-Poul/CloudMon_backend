@@ -6,6 +6,7 @@ import entities.Role;
 import utils.EMF_Creator;
 import entities.User;
 import errorhandling.NoConnectionException;
+import errorhandling.NotFoundException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -49,10 +50,12 @@ public class UserFacadeTest {
     @BeforeEach
     public void setUp() {
         EntityManager em = emf.createEntityManager();
+
         try {
             em.getTransaction().begin();
             em.createNamedQuery("User.deleteAllRows").executeUpdate();
             em.createNamedQuery("Role.deleteAllRows").executeUpdate();
+
             r1 = new Role("user");
             r2 = new Role("admin");
             u1 = new User("testuser1", "testpass1");
@@ -77,13 +80,36 @@ public class UserFacadeTest {
 //        Remove any data after each test was run
     }
 
+    /**
+     * Test of getUserFacade method, of class UserFacade.
+     */
     @Test
-    public void testUserCount() {
-        assertEquals(2, facade.getUserCount(), "Expects two rows in the database");
+    public void testGetUserFacade() {
+        System.out.println("Get UserFacade has private access modifiers, so encapsulation works and cannot perform test");
+
+        assertEquals(UserFacade.getUserFacade(emf), UserFacade.getUserFacade(emf));
     }
 
+    /**
+     * Test of getUserCount method, of class UserFacade.
+     */
+    @Test
+    public void testUserCount() throws NoConnectionException {
+        System.out.println("Get user count");
+        try {
+            assertEquals(2, facade.getUserCount(), "Expects two rows in the database");
+        } catch (NoConnectionException e) {
+            throw new NoConnectionException("No connection to the database");
+        }
+
+    }
+
+    /**
+     * Test of getVeryfiedUser method, of class UserFacade.
+     */
     @Test
     public void testGetVeryfiedUser() throws AuthenticationException {
+        System.out.println("Get veryfied user");
         String pass = u1.getUserPass();
 
         assertEquals(u1.getUserName(), "testuser1");
@@ -92,42 +118,56 @@ public class UserFacadeTest {
         assertThat(u1.getUserPass(), is(not("Robin")));
     }
 
+    /**
+     * Test to make sure an unwanted person can't get information without proper authentication
+     */
     @Test
     public void testGetRoleList() {
+        System.out.println("Get role list");
+
         assertEquals(u1.getRolesAsStrings().get(0), r1.getRoleName());
         assertEquals(u2.getRolesAsStrings().get(0), r2.getRoleName());
     }
 
+    /**
+     * Test of addUser method, of class UserFacade.
+     */
     @Test
-    public void testAddUser() throws Exception {
+    public void testAddUser() throws Exception, AuthenticationException, NoConnectionException {
+        System.out.println("Add user");
         String userName = "ping";
         String pass = "pong";
 
-        User uls = new User(userName, pass);
-        UserDTO u = new UserDTO(uls);
-
-        System.out.println(u);
-
-        facade.addUser(userName, pass);
+        User usr = new User(userName, pass);
+//        UserDTO u = new UserDTO(uls);
+//
+//        System.out.println(u);
 
         EntityManager em = emf.createEntityManager();
         try {
+            facade.addUser(usr.getUserName(), usr.getUserPass());
             em.getTransaction().begin();
 
             User us = em.find(User.class, userName);
-            System.out.println(us.getUserName());
+//            System.out.println(us.getUserName());
 
             em.getTransaction().commit();
 
             assertEquals(us, em.find(User.class, userName));
             assertEquals(3, facade.getUserCount(), "Expects three rows in the database");
+        } catch (NoConnectionException | AuthenticationException e) {
+            throw new NoConnectionException("No connection to the database");
         } finally {
             em.close();
         }
     }
 
+    /**
+     * Test of getAllUsers method, of class UserFacade.
+     */
     @Test
     public void testGetAllUsers() throws NoConnectionException {
+        System.out.println("Get All users");
         UsersDTO usersDTO = facade.getAllUsers();
         List<UserDTO> list = usersDTO.getAll();
 
@@ -138,6 +178,18 @@ public class UserFacadeTest {
         assertThat(list, Matchers.hasItems(Matchers.<UserDTO>hasProperty("userID", is("testuser1")),
                 Matchers.<UserDTO>hasProperty("userID", is("testuser2"))
         ));
+    }
+
+    /**
+     * Test of getUser method, of class UserFacade.
+     */
+    @Test
+    public void testGetUser() throws NoConnectionException, NotFoundException {
+        System.out.println("Get User");
+        UserDTO userDTO = facade.getUser(u1.getUserName());
+
+        assertEquals("testuser1", userDTO.getUserID());
+        assertEquals("user", u1.getRolesAsStrings().get(0));
     }
 
 }

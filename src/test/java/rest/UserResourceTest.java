@@ -46,7 +46,7 @@ public class UserResourceTest {
 
     @BeforeAll
     public static void setUpClass() {
-//This method must be called before you request the EntityManagerFactory
+        //This method must be called before you request the EntityManagerFactory
         EMF_Creator.startREST_TestWithDB();
         emf = EMF_Creator.createEntityManagerFactoryForTest();
 
@@ -59,10 +59,9 @@ public class UserResourceTest {
 
     @AfterAll
     public static void closeTestServer() {
-//Don't forget this, if you called its counterpart in @BeforeAll
+        //Don't forget this, if you called its counterpart in @BeforeAll
         EMF_Creator.endREST_TestWithDB();
         httpServer.shutdownNow();
-
     }
 
     @BeforeEach
@@ -100,6 +99,9 @@ public class UserResourceTest {
     public void tearDown() {
     }
 
+    /**
+     * Test of endpoint /users, of class UserResource.
+     */
     //@Disabled
     @Test
     public void testServerIsUp() {
@@ -112,6 +114,9 @@ public class UserResourceTest {
                 .statusCode(200);
     }
 
+    /**
+     * Test of Ping method, of class UserResource.
+     */
     //@Disabled
     @Test
     public void testPing() {
@@ -125,6 +130,9 @@ public class UserResourceTest {
                 .body(equalTo("Service online"));
     }
 
+    /**
+     * Test of Count method, of class UserResource.
+     */
     //@Disabled
     @Test
     public void testCount() throws Exception {
@@ -138,6 +146,9 @@ public class UserResourceTest {
                 .body("count", equalTo(3));
     }
 
+    /**
+     * Test to make sure an unwanted person can't get information without proper authentication
+     */
 //@Disabled
     @Test
     public void testGetRole() throws Exception {
@@ -215,7 +226,7 @@ public class UserResourceTest {
                 .when()
                 .get("/users/user").then()
                 .statusCode(200)
-                .body("msg", equalTo("Hello to User: testuser1"));
+                .body("msg", equalTo("Hej testuser1 du er ved at logge ud."));
     }
 
     /**
@@ -240,7 +251,7 @@ public class UserResourceTest {
                 .when()
                 .get("/users/admin").then()
                 .statusCode(200)
-                .body("msg", equalTo("Hello to (admin) User: testuser2"));
+                .body("msg", equalTo("Hej testuser2 du er ved at logge ud."));
     }
 
     /**
@@ -261,6 +272,26 @@ public class UserResourceTest {
                 .then()
                 .statusCode(HttpStatus.OK_200.getStatusCode())
                 .body("userID", equalTo("Batman"));
+    }
+
+    /**
+     * Test of getUser method, of class UserResource.
+     */
+    @Test
+    public void testGetUser() {
+        System.out.println("Get user");
+
+        UserDTO usr = new UserDTO(u1);
+        String expected = usr.getUserID();
+
+        given()
+                .contentType("application/json")
+                .when()
+                .get("users/username/" + u1.getUserName())
+                .then()
+                .statusCode(HttpStatus.OK_200.getStatusCode())
+                .assertThat()
+                .body("userID", equalTo(expected));
     }
 
 }
