@@ -6,7 +6,9 @@ import dto.UserDTO;
 import dto.UsersDTO;
 import entities.User;
 import errorhandling.NoConnectionException;
+import errorhandling.NotFoundException;
 import facades.UserFacade;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManager;
@@ -19,6 +21,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 import utils.EMF_Creator;
@@ -87,6 +90,13 @@ public class UserResource {
         UserDTO u = GSON.fromJson(user, UserDTO.class);
         UserDTO addUser = FACADE.addUser(u.getUserID(), u.getPassword());
         return GSON.toJson(addUser);
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("lastlogin/{name}")
+    public String getUser(@PathParam("name") String name) throws NoConnectionException, NotFoundException {
+         return GSON.toJson(FACADE.getUser(name));
     }
 
 }

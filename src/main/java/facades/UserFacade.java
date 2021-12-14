@@ -5,6 +5,7 @@ import dto.UsersDTO;
 import entities.Role;
 import entities.User;
 import errorhandling.NoConnectionException;
+import errorhandling.NotFoundException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import security.errorhandling.AuthenticationException;
@@ -92,6 +93,20 @@ public class UserFacade {
             throw new NoConnectionException("No connection to the database");
         } finally {
             em.close();
+        }
+    }
+    
+        public UserDTO getUser(String userName) throws NoConnectionException, NotFoundException {
+        EntityManager em = emf.createEntityManager();
+        User u = em.find(User.class, userName);
+        if (u == null) {
+            throw new NotFoundException("No User with provided User name found");
+        } else {
+            try {
+                return new UserDTO(u);
+            } finally {
+                em.close();
+            }
         }
     }
 
