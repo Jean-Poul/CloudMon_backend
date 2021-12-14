@@ -41,6 +41,7 @@ public class ApplicationFacadeTest {
     @AfterAll
     public static void tearDownClass() {
 //        Clean up database after test is done or use a persistence unit with drop-and-create to start up clean on every test
+   //     emf.close();
     }
 
     // Setup the DataBase in a known state BEFORE EACH TEST

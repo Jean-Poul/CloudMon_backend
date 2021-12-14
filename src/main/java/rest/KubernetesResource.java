@@ -31,7 +31,6 @@ import utils.EMF_Creator;
 /**
  * REST Web Service
  *
- * @author jplm
  */
 @Path("kubernetes")
 public class KubernetesResource {
@@ -47,13 +46,12 @@ public class KubernetesResource {
     /**
      * Creates a new instance of KubernetesResource
      */
-//UNDERSØG OM DETTE SKAL SLETTES?
 //    public KubernetesResource() {
 //    }
 
-// slettes højst sandsynligt
-
-/** GET **/
+    /**
+     * GET *
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getInfoForAll() {
@@ -77,8 +75,6 @@ public class KubernetesResource {
 
         Namespace ns;
         NamespacesDTO nsDTO = null;
-
-
 
         try {
             nsDTO = FACADE.getAllNamespaces();
@@ -125,58 +121,8 @@ public class KubernetesResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("services")
     public String getServices() throws IOException, NoConnectionException {
-
-//        EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
-        EntityManager em = EMF.createEntityManager();
-
-        Service service;
-        ServicesDTO servicesDTO = null;
-
-        try {
-            servicesDTO = FACADE.getAllServices();
-
-            if (servicesDTO.getAll().isEmpty()) {
-
-                java.nio.file.Path path = Paths.get("C:\\Users\\jplm\\Desktop\\Afsluttende datamatiker eksamen\\Backend\\src\\main\\java\\rest\\svc.txt");
-                System.out.println(path);
-
-                BufferedReader reader = Files.newBufferedReader(path);
-                String line = reader.readLine();
-
-                while (line != null) {
-
-                    String[] name = line.split("\\s+");
-                    System.out.println(name[0]);
-                    System.out.println(name[1]);
-                    System.out.println(name[2]);
-                    System.out.println(name[3]);
-                    System.out.println(name[4]);
-                    System.out.println(name[5]);
-                    System.out.println(name[6]);
-                    System.out.println(name[7]);
-
-                    line = reader.readLine();
-                    System.out.println(line);
-
-                    service = new Service(name[0], name[1], name[2], name[3], name[4], name[5], name[6], name[7]);
-
-                    try {
-                        em.getTransaction().begin();
-                        em.persist(service);
-                        em.getTransaction().commit();
-                    } finally {
-                        //em.close();
-                        servicesDTO = FACADE.getAllServices();
-                    }
-                }
-            }
-
-        } catch (NoConnectionException ex) {
-            Logger.getLogger(KubernetesResource.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+        ServicesDTO servicesDTO = FACADE.getAllServices();
         return GSON.toJson(servicesDTO);
-
     }
 
     @GET
@@ -292,9 +238,6 @@ public class KubernetesResource {
         return GSON.toJson(podsDTO);
 
     }
-
-
-
 
 //*****************************************************************
 // Old code bits for references if anythings breaks - DELETE LATER*

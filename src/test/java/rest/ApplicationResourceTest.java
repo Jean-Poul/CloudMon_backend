@@ -2,8 +2,6 @@ package rest;
 
 import dto.ApplicationDTO;
 import entities.Application;
-import entities.Role;
-import entities.User;
 import io.restassured.RestAssured;
 import static io.restassured.RestAssured.given;
 import io.restassured.parsing.Parser;
@@ -41,6 +39,7 @@ public class ApplicationResourceTest {
 
 //    public ApplicationResourceTest() {
 //    }
+
     static HttpServer startServer() {
         ResourceConfig rc = ResourceConfig.forApplication(new ApplicationConfig());
         return GrizzlyHttpServerFactory.createHttpServer(BASE_URI, rc);

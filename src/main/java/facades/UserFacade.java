@@ -16,6 +16,7 @@ public class UserFacade {
     private static UserFacade instance;
 
     private UserFacade() {
+
     }
 
     /**
@@ -86,10 +87,10 @@ public class UserFacade {
                     throw new AuthenticationException("User exist");
                 }
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             // SKAL HUSKE AT LAVE DENNE EXCEPTION RIGTIG I ERRORHANDLING - Mangler stadig noget arbejde
             throw new NoConnectionException("No connection to the database");
-        }  finally {
+        } finally {
             em.close();
         }
         return new UserDTO(user);

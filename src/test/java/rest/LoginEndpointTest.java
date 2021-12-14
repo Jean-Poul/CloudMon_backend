@@ -135,7 +135,7 @@ public class LoginEndpointTest {
                 .when()
                 .get("/users/admin").then()
                 .statusCode(200)
-                .body("msg", equalTo("Hello to (admin) User: admin"));
+                .body("msg", equalTo("Hej admin du er ved at logge ud."));
     }
 
     @Test
@@ -147,7 +147,7 @@ public class LoginEndpointTest {
                 .when()
                 .get("/users/user").then()
                 .statusCode(200)
-                .body("msg", equalTo("Hello to User: user"));
+                .body("msg", equalTo("Hej user du er ved at logge ud."));
     }
 
     @Test
@@ -182,7 +182,7 @@ public class LoginEndpointTest {
                 .when()
                 .get("/users/admin").then()
                 .statusCode(200)
-                .body("msg", equalTo("Hello to (admin) User: user_admin"));
+                .body("msg", equalTo("Hej user_admin du er ved at logge ud."));
     }
 
     @Test
@@ -194,7 +194,7 @@ public class LoginEndpointTest {
                 .when()
                 .get("/users/user").then()
                 .statusCode(200)
-                .body("msg", equalTo("Hello to User: user_admin"));
+                .body("msg", equalTo("Hej user_admin du er ved at logge ud."));
     }
 
     @Test

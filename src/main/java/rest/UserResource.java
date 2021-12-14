@@ -40,6 +40,9 @@ public class UserResource {
     private static final UserFacade FACADE = UserFacade.getUserFacade(EMF);
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
+    /**
+     * GET *
+     */
     // To verify if there is a connection to the endpoint users
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -65,7 +68,6 @@ public class UserResource {
 
     }
 
-    // Just to verify if the database is setup
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/all")
@@ -103,6 +105,16 @@ public class UserResource {
         //return "{\"msg\": \"Hello to (admin) User: " + thisuser + "\"}";
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/username/{name}")
+    public String getUser(@PathParam("name") String name) throws NoConnectionException, NotFoundException {
+        return GSON.toJson(FACADE.getUser(name));
+    }
+
+    /**
+     * POST *
+     */
     @POST
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
@@ -110,13 +122,6 @@ public class UserResource {
         UserDTO u = GSON.fromJson(user, UserDTO.class);
         UserDTO addUser = FACADE.addUser(u.getUserID(), u.getPassword());
         return GSON.toJson(addUser);
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/username/{name}")
-    public String getUser(@PathParam("name") String name) throws NoConnectionException, NotFoundException {
-        return GSON.toJson(FACADE.getUser(name));
     }
 
 }

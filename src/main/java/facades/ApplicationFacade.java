@@ -8,7 +8,6 @@ import errorhandling.NotFoundException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-
 public class ApplicationFacade {
 
     private static EntityManagerFactory emf;
@@ -132,7 +131,9 @@ public class ApplicationFacade {
     }
 
     public ApplicationDTO getApplication(long appId) throws NotFoundException {
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = getEntityManager();
+        //EntityManager em = emf.createEntityManager();
+
         Application app = em.find(Application.class, appId);
 
         if (app == null) {
@@ -146,6 +147,7 @@ public class ApplicationFacade {
         }
     }
 
+// Validation
     private static boolean isNameInvalid(long id, String name, String version, String location) {
         return (id == 0) || (name.length() == 0) || (version.length() == 0) || (location.length() == 0);
     }

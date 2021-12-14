@@ -153,7 +153,7 @@ public class UserResourceTest {
     @Test
     public void testGetRole() throws Exception {
 // Can not get role without being logged in.
-// We test login with Postman
+// We also test login with Postman
         System.out.println("Get null user role info when not logged in");
         given()
                 .when()
