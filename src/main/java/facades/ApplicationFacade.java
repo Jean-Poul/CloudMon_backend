@@ -29,7 +29,6 @@ public class ApplicationFacade {
         }
         return instance;
     }
-
     private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
@@ -50,16 +49,15 @@ public class ApplicationFacade {
 
     public ApplicationsDTO getAllApplications() throws NoConnectionException {
         EntityManager em = getEntityManager();
-        //      EntityManager em = emf.createEntityManager();
 
         try {
             return new ApplicationsDTO(em.createNamedQuery("Application.getAllRows").getResultList());
         } catch (Exception e) {
-            // SKAL HUSKE AT LAVE DENNE EXCEPTION RIGTIG I ERRORHANDLING - Mangler stadig noget arbejde
             throw new NoConnectionException("No connection to the database");
         } finally {
             em.close();
         }
+
     }
 
     public ApplicationDTO addApplication(String name, String version, String location) throws NoConnectionException {
