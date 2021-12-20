@@ -61,6 +61,9 @@ public class KubernetesFacadeTest {
         try {
             em.getTransaction().begin();
             em.createNamedQuery("Namespace.deleteAllRows").executeUpdate();
+            em.createNamedQuery("Service.deleteAllRows").executeUpdate();
+            em.createNamedQuery("Deployment.deleteAllRows").executeUpdate();
+            em.createNamedQuery("Pod.deleteAllRows").executeUpdate();
 
             namespace1 = new Namespace("kube-system", "active", "15h");
             namespace2 = new Namespace("ingress-nginx", "active", "2d17h");

@@ -26,6 +26,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import utils.EMF_Creator;
 
 /**
@@ -54,19 +55,19 @@ public class KubernetesResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getInfoForAll() {
-        return "{\"msg\":\"Hello anonymous\"}";
+        return "{\"msg\":\"Hello from Kubernetes\"}";
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("test")
-    public String test() {
-        return "Hello from kubernetes";
+    @Path("/ping")
+    public Response ping() {
+        return Response.ok().entity("Service online").build();
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("namespaces")
+    @Path("/namespaces")
     public String getNamespaces() throws IOException, NoConnectionException {
 
 //        EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
@@ -119,7 +120,7 @@ public class KubernetesResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("services")
+    @Path("/services")
     public String getServices() throws IOException, NoConnectionException {
         ServicesDTO servicesDTO = FACADE.getAllServices();
         return GSON.toJson(servicesDTO);
@@ -127,7 +128,7 @@ public class KubernetesResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("deployments")
+    @Path("/deployments")
     public String getDeployments() throws IOException, NoConnectionException {
 
 //        EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
@@ -186,7 +187,7 @@ public class KubernetesResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("pods")
+    @Path("/pods")
     public String getPods() throws IOException, NoConnectionException {
 
 //        EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();

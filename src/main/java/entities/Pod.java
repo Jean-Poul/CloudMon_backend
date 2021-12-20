@@ -19,6 +19,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "pods")
+@NamedQuery(name = "Pod.deleteAllRows", query = "DELETE from Pod")
 @NamedQuery(name = "Pod.getAllRows", query = "SELECT p from Pod p")
 public class Pod implements Serializable {
 

@@ -92,7 +92,7 @@ public class ApplicationResourceTest {
     //@Disabled
     @Test
     public void testServerIsUp() {
-        System.out.println("Testing if server up");
+        System.out.println("Testing if server is up");
 
         given()
                 .when()

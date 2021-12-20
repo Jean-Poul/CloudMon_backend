@@ -34,33 +34,34 @@ public class SetupTestData {
 
         nDTO = new NamespacesDTO(em.createNamedQuery("Namespace.getAllRows").getResultList());
 
-        java.nio.file.Path path = Paths.get("C:\\Users\\jplm\\Desktop\\Afsluttende datamatiker eksamen\\Backend\\src\\main\\java\\utils\\files\\ns.txt");
-        System.out.println(path);
+        if (nDTO.getAll().isEmpty()) {
+            java.nio.file.Path path = Paths.get("C:\\Users\\jplm\\Desktop\\Afsluttende datamatiker eksamen\\Backend\\src\\main\\java\\utils\\files\\ns.txt");
+            System.out.println(path);
 
-        BufferedReader reader = Files.newBufferedReader(path);
-        String line = reader.readLine();
+            BufferedReader reader = Files.newBufferedReader(path);
+            String line = reader.readLine();
 
-        while (line != null) {
+            while (line != null) {
 
-            String[] name = line.split("\\s+");
-            System.out.println(name[0]);
-            System.out.println(name[1]);
-            System.out.println(name[2]);
+                String[] name = line.split("\\s+");
+                System.out.println(name[0]);
+                System.out.println(name[1]);
+                System.out.println(name[2]);
 
-            line = reader.readLine();
-            System.out.println(line);
+                line = reader.readLine();
+                System.out.println(line);
 
-            namespace = new Namespace(name[0], name[1], name[2]);
+                namespace = new Namespace(name[0], name[1], name[2]);
 
-            try {
-                em.getTransaction().begin();
-                em.persist(namespace);
-                em.getTransaction().commit();
-            } finally {
-                //em.close();
+                try {
+                    em.getTransaction().begin();
+                    em.persist(namespace);
+                    em.getTransaction().commit();
+                } finally {
+                    //em.close();
+                }
             }
         }
-//        }
     }
 
     public static void getServices() throws IOException {
