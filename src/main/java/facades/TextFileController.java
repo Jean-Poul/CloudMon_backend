@@ -37,7 +37,7 @@ public class TextFileController {
         List<String> nodeStatus = new ArrayList<>();
         List<String> nodeAge = new ArrayList<>();
 
-        Path path = Paths.get("C:\\Users\\jplm\\Desktop\\Afsluttende datamatiker eksamen\\Backend\\src\\main\\java\\rest\\ns.txt");
+        Path path = Paths.get("C:\\Users\\jplm\\Desktop\\Afsluttende datamatiker eksamen\\Backend\\src\\main\\java\\utils\\files\\ns.txt");
         System.out.println(path);
         //  String read = Files.readAllLines(path).get(2);
         BufferedReader reader = Files.newBufferedReader(path);

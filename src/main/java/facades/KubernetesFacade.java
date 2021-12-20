@@ -58,73 +58,74 @@ public class KubernetesFacade {
     }
 
     public ServicesDTO getAllServices() throws NoConnectionException {
-//        EntityManager em = getEntityManager();
-//
-//        try {
-//            return new ServicesDTO(em.createNamedQuery("Service.getAllRows").getResultList());
-//        } catch (Exception e) {
-//            // SKAL HUSKE AT LAVE DENNE EXCEPTION RIGTIG I ERRORHANDLING - Mangler stadig noget arbejde
-//            throw new NoConnectionException("No connection to the database");
-//        } finally {
-//            em.close();
-//        }
 
         EntityManager em = getEntityManager();
 
-        Service service;
-        ServicesDTO servicesDTO = null;
-
         try {
-
-            servicesDTO = new ServicesDTO(em.createNamedQuery("Service.getAllRows").getResultList());
-//return new ServicesDTO(em.createNamedQuery("Service.getAllRows").getResultList());
-            //   servicesDTO = instance.getAllServices();
-
-            if (servicesDTO.getAll().isEmpty()) {
-
-                java.nio.file.Path path = Paths.get("C:\\Users\\jplm\\Desktop\\Afsluttende datamatiker eksamen\\Backend\\src\\main\\java\\facades\\files\\svc.txt");
-                System.out.println(path);
-
-                BufferedReader reader = Files.newBufferedReader(path);
-                String line = reader.readLine();
-
-                while (line != null) {
-
-                    String[] name = line.split("\\s+");
-                    System.out.println(name[0]);
-                    System.out.println(name[1]);
-                    System.out.println(name[2]);
-                    System.out.println(name[3]);
-                    System.out.println(name[4]);
-                    System.out.println(name[5]);
-                    System.out.println(name[6]);
-                    System.out.println(name[7]);
-
-                    line = reader.readLine();
-                    System.out.println(line);
-
-                    service = new Service(name[0], name[1], name[2], name[3], name[4], name[5], name[6], name[7]);
-
-                    try {
-                        em.getTransaction().begin();
-                        em.persist(service);
-                        em.getTransaction().commit();
-                    } finally {
-                        //em.close();
-                      //   servicesDTO = (ServicesDTO) em.createNamedQuery("Service.getAllRows").getResultList();
-                       // servicesDTO = instance.getAllServices();
-                    }
-                }
-            }
+            return new ServicesDTO(em.createNamedQuery("Service.getAllRows").getResultList());
         } catch (Exception e) {
-            Logger.getLogger(KubernetesFacade.class.getName()).log(Level.SEVERE, null, e);
             // SKAL HUSKE AT LAVE DENNE EXCEPTION RIGTIG I ERRORHANDLING - Mangler stadig noget arbejde
             throw new NoConnectionException("No connection to the database");
-
         } finally {
-          //  em.close();
+            em.close();
         }
-        return servicesDTO;
+
+//        EntityManager em = getEntityManager();
+//
+//        Service service;
+//        ServicesDTO servicesDTO = null;
+//
+//        try {
+//
+//            servicesDTO = new ServicesDTO(em.createNamedQuery("Service.getAllRows").getResultList());
+////return new ServicesDTO(em.createNamedQuery("Service.getAllRows").getResultList());
+//            //   servicesDTO = instance.getAllServices();
+//
+//            if (servicesDTO.getAll().isEmpty()) {
+//
+//                java.nio.file.Path path = Paths.get("C:\\Users\\jplm\\Desktop\\Afsluttende datamatiker eksamen\\Backend\\src\\main\\java\\facades\\files\\svc.txt");
+//                System.out.println(path);
+//
+//                BufferedReader reader = Files.newBufferedReader(path);
+//                String line = reader.readLine();
+//
+//                while (line != null) {
+//
+//                    String[] name = line.split("\\s+");
+//                    System.out.println(name[0]);
+//                    System.out.println(name[1]);
+//                    System.out.println(name[2]);
+//                    System.out.println(name[3]);
+//                    System.out.println(name[4]);
+//                    System.out.println(name[5]);
+//                    System.out.println(name[6]);
+//                    System.out.println(name[7]);
+//
+//                    line = reader.readLine();
+//                    System.out.println(line);
+//
+//                    service = new Service(name[0], name[1], name[2], name[3], name[4], name[5], name[6], name[7]);
+//
+//                    try {
+//                        em.getTransaction().begin();
+//                        em.persist(service);
+//                        em.getTransaction().commit();
+//                    } finally {
+//                        //em.close();
+//                         servicesDTO = (ServicesDTO) em.createNamedQuery("Service.getAllRows").getResultList();
+//                       // servicesDTO = instance.getAllServices();
+//                    }
+//                }
+//            }
+//        } catch (Exception e) {
+//            Logger.getLogger(KubernetesFacade.class.getName()).log(Level.SEVERE, null, e);
+//            // SKAL HUSKE AT LAVE DENNE EXCEPTION RIGTIG I ERRORHANDLING - Mangler stadig noget arbejde
+//            throw new NoConnectionException("No connection to the database");
+//
+//        } finally {
+//          //  em.close();
+//        }
+//        return servicesDTO;
 
 //        EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
 //        EntityManager em = EMF.createEntityManager();

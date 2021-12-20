@@ -48,7 +48,6 @@ public class KubernetesResource {
      */
 //    public KubernetesResource() {
 //    }
-
     /**
      * GET *
      */
@@ -71,50 +70,51 @@ public class KubernetesResource {
     public String getNamespaces() throws IOException, NoConnectionException {
 
 //        EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
-        EntityManager em = EMF.createEntityManager();
-
-        Namespace ns;
-        NamespacesDTO nsDTO = null;
-
-        try {
-            nsDTO = FACADE.getAllNamespaces();
-
-            if (nsDTO.getAll().isEmpty()) {
-                java.nio.file.Path path = Paths.get("C:\\Users\\jplm\\Desktop\\Afsluttende datamatiker eksamen\\Backend\\src\\main\\java\\rest\\ns.txt");
-                System.out.println(path);
-
-                BufferedReader reader = Files.newBufferedReader(path);
-                String line = reader.readLine();
-
-                while (line != null) {
-
-                    String[] name = line.split("\\s+");
-                    System.out.println(name[0]);
-                    System.out.println(name[1]);
-                    System.out.println(name[2]);
-
-                    line = reader.readLine();
-                    System.out.println(line);
-
-                    ns = new Namespace(name[0], name[1], name[2]);
-
-                    try {
-                        em.getTransaction().begin();
-                        em.persist(ns);
-                        em.getTransaction().commit();
-                    } finally {
-                        // em.close();
-                        nsDTO = FACADE.getAllNamespaces();
-                    }
-                }
-            }
-
-        } catch (NoConnectionException ex) {
-            Logger.getLogger(KubernetesResource.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+//        EntityManager em = EMF.createEntityManager();
+//
+//        Namespace ns;
+//        NamespacesDTO nsDTO = null;
+//
+//        try {
+//            nsDTO = FACADE.getAllNamespaces();
+//
+//            if (nsDTO.getAll().isEmpty()) {
+//                java.nio.file.Path path = Paths.get("C:\\Users\\jplm\\Desktop\\Afsluttende datamatiker eksamen\\Backend\\src\\main\\java\\rest\\ns.txt");
+//                System.out.println(path);
+//
+//                BufferedReader reader = Files.newBufferedReader(path);
+//                String line = reader.readLine();
+//
+//                while (line != null) {
+//
+//                    String[] name = line.split("\\s+");
+//                    System.out.println(name[0]);
+//                    System.out.println(name[1]);
+//                    System.out.println(name[2]);
+//
+//                    line = reader.readLine();
+//                    System.out.println(line);
+//
+//                    ns = new Namespace(name[0], name[1], name[2]);
+//
+//                    try {
+//                        em.getTransaction().begin();
+//                        em.persist(ns);
+//                        em.getTransaction().commit();
+//                    } finally {
+//                        // em.close();
+//                        nsDTO = FACADE.getAllNamespaces();
+//                    }
+//                }
+//            }
+//
+//        } catch (NoConnectionException ex) {
+//            Logger.getLogger(KubernetesResource.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//        return GSON.toJson(nsDTO);
+        NamespacesDTO nsDTO = FACADE.getAllNamespaces();
         return GSON.toJson(nsDTO);
-
     }
 
     @GET
@@ -131,53 +131,55 @@ public class KubernetesResource {
     public String getDeployments() throws IOException, NoConnectionException {
 
 //        EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
-        EntityManager em = EMF.createEntityManager();
-
-        Deployment deployment;
-        DeploymentsDTO deploymentsDTO = null;
-
-        try {
-            deploymentsDTO = FACADE.getAllDeployments();
-
-            if (deploymentsDTO.getAll().isEmpty()) {
-
-                java.nio.file.Path path = Paths.get("C:\\Users\\jplm\\Desktop\\Afsluttende datamatiker eksamen\\Backend\\src\\main\\java\\rest\\deploy.txt");
-                System.out.println(path);
-
-                BufferedReader reader = Files.newBufferedReader(path);
-                String line = reader.readLine();
-
-                while (line != null) {
-
-                    String[] name = line.split("\\s+");
-                    System.out.println(name[0]);
-                    System.out.println(name[1]);
-                    System.out.println(name[2]);
-                    System.out.println(name[3]);
-                    System.out.println(name[4]);
-                    System.out.println(name[5]);
-                    System.out.println(name[6]);
-                    System.out.println(name[7]);
-                    System.out.println(name[8]);
-
-                    line = reader.readLine();
-                    System.out.println(line);
-
-                    deployment = new Deployment(name[0], name[1], name[2], name[3], name[4], name[5], name[6], name[7], name[8]);
-                    try {
-                        em.getTransaction().begin();
-                        em.persist(deployment);
-                        em.getTransaction().commit();
-                    } finally {
-                        //em.close();
-                        deploymentsDTO = FACADE.getAllDeployments();
-                    }
-                }
-            }
-        } catch (NoConnectionException ex) {
-            Logger.getLogger(KubernetesResource.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+//        EntityManager em = EMF.createEntityManager();
+//
+//        Deployment deployment;
+//        DeploymentsDTO deploymentsDTO = null;
+//
+//        try {
+//            deploymentsDTO = FACADE.getAllDeployments();
+//
+//            if (deploymentsDTO.getAll().isEmpty()) {
+//
+//                java.nio.file.Path path = Paths.get("C:\\Users\\jplm\\Desktop\\Afsluttende datamatiker eksamen\\Backend\\src\\main\\java\\rest\\deploy.txt");
+//                System.out.println(path);
+//
+//                BufferedReader reader = Files.newBufferedReader(path);
+//                String line = reader.readLine();
+//
+//                while (line != null) {
+//
+//                    String[] name = line.split("\\s+");
+//                    System.out.println(name[0]);
+//                    System.out.println(name[1]);
+//                    System.out.println(name[2]);
+//                    System.out.println(name[3]);
+//                    System.out.println(name[4]);
+//                    System.out.println(name[5]);
+//                    System.out.println(name[6]);
+//                    System.out.println(name[7]);
+//                    System.out.println(name[8]);
+//
+//                    line = reader.readLine();
+//                    System.out.println(line);
+//
+//                    deployment = new Deployment(name[0], name[1], name[2], name[3], name[4], name[5], name[6], name[7], name[8]);
+//                    try {
+//                        em.getTransaction().begin();
+//                        em.persist(deployment);
+//                        em.getTransaction().commit();
+//                    } finally {
+//                        //em.close();
+//                        deploymentsDTO = FACADE.getAllDeployments();
+//                    }
+//                }
+//            }
+//        } catch (NoConnectionException ex) {
+//            Logger.getLogger(KubernetesResource.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//        return GSON.toJson(deploymentsDTO);
+        DeploymentsDTO deploymentsDTO = FACADE.getAllDeployments();
         return GSON.toJson(deploymentsDTO);
 
     }
@@ -188,55 +190,55 @@ public class KubernetesResource {
     public String getPods() throws IOException, NoConnectionException {
 
 //        EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
-        EntityManager em = EMF.createEntityManager();
-
-        Pod pod;
-        PodsDTO podsDTO = null;
-
-        try {
-            podsDTO = FACADE.getAllPods();
-
-            if (podsDTO.getAll().isEmpty()) {
-
-                java.nio.file.Path path = Paths.get("C:\\Users\\jplm\\Desktop\\Afsluttende datamatiker eksamen\\Backend\\src\\main\\java\\rest\\pod.txt");
-                System.out.println(path);
-
-                BufferedReader reader = Files.newBufferedReader(path);
-                String line = reader.readLine();
-
-                while (line != null) {
-
-                    String[] name = line.split("\\s+");
-                    System.out.println(name[0]);
-                    System.out.println(name[1]);
-                    System.out.println(name[2]);
-                    System.out.println(name[3]);
-                    System.out.println(name[4]);
-                    System.out.println(name[5]);
-                    System.out.println(name[6]);
-                    System.out.println(name[7]);
-
-                    line = reader.readLine();
-                    System.out.println(line);
-
-                    pod = new Pod(name[0], name[1], name[2], name[3], name[4], name[5], name[6], name[7]);
-
-                    try {
-                        em.getTransaction().begin();
-                        em.persist(pod);
-                        em.getTransaction().commit();
-                    } finally {
-                        //em.close();
-                        podsDTO = FACADE.getAllPods();
-                    }
-                }
-            }
-        } catch (NoConnectionException ex) {
-            Logger.getLogger(KubernetesResource.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+//        EntityManager em = EMF.createEntityManager();
+//
+//        Pod pod;
+//        PodsDTO podsDTO = null;
+//
+//        try {
+//            podsDTO = FACADE.getAllPods();
+//
+//            if (podsDTO.getAll().isEmpty()) {
+//
+//                java.nio.file.Path path = Paths.get("C:\\Users\\jplm\\Desktop\\Afsluttende datamatiker eksamen\\Backend\\src\\main\\java\\rest\\pod.txt");
+//                System.out.println(path);
+//
+//                BufferedReader reader = Files.newBufferedReader(path);
+//                String line = reader.readLine();
+//
+//                while (line != null) {
+//
+//                    String[] name = line.split("\\s+");
+//                    System.out.println(name[0]);
+//                    System.out.println(name[1]);
+//                    System.out.println(name[2]);
+//                    System.out.println(name[3]);
+//                    System.out.println(name[4]);
+//                    System.out.println(name[5]);
+//                    System.out.println(name[6]);
+//                    System.out.println(name[7]);
+//
+//                    line = reader.readLine();
+//                    System.out.println(line);
+//
+//                    pod = new Pod(name[0], name[1], name[2], name[3], name[4], name[5], name[6], name[7]);
+//
+//                    try {
+//                        em.getTransaction().begin();
+//                        em.persist(pod);
+//                        em.getTransaction().commit();
+//                    } finally {
+//                        //em.close();
+//                        podsDTO = FACADE.getAllPods();
+//                    }
+//                }
+//            }
+//        } catch (NoConnectionException ex) {
+//            Logger.getLogger(KubernetesResource.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return GSON.toJson(podsDTO);
+        PodsDTO podsDTO = FACADE.getAllPods();
         return GSON.toJson(podsDTO);
-
     }
 
 //*****************************************************************
