@@ -12,6 +12,11 @@ import entities.Deployment;
 import entities.Namespace;
 import entities.Pod;
 import entities.Service;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -19,6 +24,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.hamcrest.Matchers;
 import static org.hamcrest.Matchers.everyItem;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -199,4 +205,117 @@ public class KubernetesFacadeTest {
                 Matchers.<PodDTO>hasProperty("status", is("Completed"))
         ));
     }
+
+    /**
+     * Unit tests
+     */
+    /**
+     * Test reading from a Namespace file.
+     */
+    @Test
+    public void testReadFromNamespaceFile() throws IOException {
+        //  Service service = null;
+
+        Path path = Paths.get("C:\\Users\\jplm\\Desktop\\Afsluttende datamatiker eksamen\\Backend\\src\\main\\java\\utils\\files\\ns.txt");
+        BufferedReader reader = Files.newBufferedReader(path);
+        String line = reader.readLine();
+
+        while (line != null) {
+
+            String[] name = line.split("\\s+");
+            line = reader.readLine();
+
+            namespace1 = new Namespace(name[0], name[1], name[2]);
+
+        }
+
+        assertEquals("velero", namespace1.getName());
+        assertEquals("Active", namespace1.getStatus());
+        assertEquals("2d17h", namespace1.getAge());
+
+        assertThat("nginx", is(not(namespace1.getStatus())));
+    }
+
+    /**
+     * Test reading from a Service file.
+     */
+    @Test
+    public void testReadFromServiceFile() throws IOException {
+        //  Service service = null;
+
+        Path path = Paths.get("C:\\Users\\jplm\\Desktop\\Afsluttende datamatiker eksamen\\Backend\\src\\main\\java\\utils\\files\\svc.txt");
+        BufferedReader reader = Files.newBufferedReader(path);
+        String line = reader.readLine();
+
+        while (line != null) {
+
+            String[] name = line.split("\\s+");
+            line = reader.readLine();
+
+            service1 = new Service(name[0], name[1], name[2], name[3], name[4], name[5], name[6], name[7]);
+
+        }
+
+        assertEquals("nginx-deploy-main", service1.getName());
+        assertEquals("ClusterIP", service1.getType());
+        assertEquals("38h", service1.getAge());
+
+        assertThat("velero", is(not(service1.getPort())));
+    }
+
+    /**
+     * Test reading from a Deployment file.
+     */
+    @Test
+    public void testReadFromDeploymentFile() throws IOException {
+        //  Deployment deployment = null;
+
+        Path path = Paths.get("C:\\Users\\jplm\\Desktop\\Afsluttende datamatiker eksamen\\Backend\\src\\main\\java\\utils\\files\\deploy.txt");
+        BufferedReader reader = Files.newBufferedReader(path);
+        String line = reader.readLine();
+
+        while (line != null) {
+
+            String[] name = line.split("\\s+");
+            line = reader.readLine();
+
+            deployment1 = new Deployment(name[0], name[1], name[2], name[3], name[4], name[5], name[6], name[7], name[8]);
+
+        }
+
+        assertEquals("velero", deployment1.getName());
+        assertEquals("12h", deployment1.getAge());
+        assertEquals("velero", deployment1.getContainers());
+
+        assertThat("reg.govcloud.dk", is(not(deployment1.getImages())));
+
+    }
+
+    /**
+     * Test reading from a Pod file.
+     */
+    @Test
+    public void testReadFromPodFile() throws IOException {
+        //  Pod pod = null;
+
+        Path path = Paths.get("C:\\Users\\jplm\\Desktop\\Afsluttende datamatiker eksamen\\Backend\\src\\main\\java\\utils\\files\\pod.txt");
+        BufferedReader reader = Files.newBufferedReader(path);
+        String line = reader.readLine();
+
+        while (line != null) {
+
+            String[] name = line.split("\\s+");
+            line = reader.readLine();
+
+            pod1 = new Pod(name[0], name[1], name[2], name[3], name[4], name[5], name[6], name[7]);
+
+        }
+
+        assertEquals("velero", pod1.getNamespace());
+        assertEquals("velero-66946f996d-2zs2z", pod1.getName());
+        assertEquals("Running", pod1.getStatus());
+
+        assertThat("gc-rook-t006", is(not(pod1.getNode())));
+    }
+
 }
