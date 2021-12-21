@@ -220,14 +220,16 @@ public class KubernetesFacadeTest {
         BufferedReader reader = Files.newBufferedReader(path);
         String line = reader.readLine();
 
+        String[] name = null;
+
         while (line != null) {
 
-            String[] name = line.split("\\s+");
+            name = line.split("\\s+");
             line = reader.readLine();
 
-            namespace1 = new Namespace(name[0], name[1], name[2]);
-
         }
+
+        namespace1 = new Namespace(name[0], name[1], name[2]);
 
         assertEquals("velero", namespace1.getName());
         assertEquals("Active", namespace1.getStatus());
@@ -247,14 +249,16 @@ public class KubernetesFacadeTest {
         BufferedReader reader = Files.newBufferedReader(path);
         String line = reader.readLine();
 
+        String[] name = null;
+
         while (line != null) {
 
-            String[] name = line.split("\\s+");
+            name = line.split("\\s+");
             line = reader.readLine();
 
-            service1 = new Service(name[0], name[1], name[2], name[3], name[4], name[5], name[6], name[7]);
-
         }
+
+        service1 = new Service(name[0], name[1], name[2], name[3], name[4], name[5], name[6], name[7]);
 
         assertEquals("nginx-deploy-main", service1.getName());
         assertEquals("ClusterIP", service1.getType());
@@ -274,14 +278,16 @@ public class KubernetesFacadeTest {
         BufferedReader reader = Files.newBufferedReader(path);
         String line = reader.readLine();
 
+        String[] name = null;
+
         while (line != null) {
 
-            String[] name = line.split("\\s+");
+            name = line.split("\\s+");
             line = reader.readLine();
 
-            deployment1 = new Deployment(name[0], name[1], name[2], name[3], name[4], name[5], name[6], name[7], name[8]);
-
         }
+
+        deployment1 = new Deployment(name[0], name[1], name[2], name[3], name[4], name[5], name[6], name[7], name[8]);
 
         assertEquals("velero", deployment1.getName());
         assertEquals("12h", deployment1.getAge());
@@ -296,20 +302,21 @@ public class KubernetesFacadeTest {
      */
     @Test
     public void testReadFromPodFile() throws IOException {
-        //  Pod pod = null;
 
         Path path = Paths.get("C:\\Users\\jplm\\Desktop\\Afsluttende datamatiker eksamen\\Backend\\src\\main\\java\\utils\\files\\pod.txt");
         BufferedReader reader = Files.newBufferedReader(path);
         String line = reader.readLine();
 
+        String[] name = null;
+
         while (line != null) {
 
-            String[] name = line.split("\\s+");
+            name = line.split("\\s+");
             line = reader.readLine();
 
-            pod1 = new Pod(name[0], name[1], name[2], name[3], name[4], name[5], name[6], name[7]);
-
         }
+
+        pod1 = new Pod(name[0], name[1], name[2], name[3], name[4], name[5], name[6], name[7]);
 
         assertEquals("velero", pod1.getNamespace());
         assertEquals("velero-66946f996d-2zs2z", pod1.getName());
