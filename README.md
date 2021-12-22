@@ -1,4 +1,4 @@
-**# CloudMon - Backend [![Build Status](https://app.travis-ci.com/Jean-Poul/CloudMon_backend.svg?branch=main)](https://app.travis-ci.com/Jean-Poul/CloudMon_backend)
+# CloudMon - Backend [![Build Status](https://app.travis-ci.com/Jean-Poul/CloudMon_backend.svg?branch=main)](https://app.travis-ci.com/Jean-Poul/CloudMon_backend)
 
 ### Udarbejdet af:
 **Alexander Pihl & Jean-Poul Wilhelm Luplau Leth-Møller**
@@ -62,4 +62,4 @@ Consisting of unit and integration tests using:
 - BCrypt plus hash/salt configurations.
 
 **CI/CD pipeline**
-- Travis configuration with github hooks - Everytime you push, travis builds and deploys**
+- Travis configuration with github hooks - Everytime you push, travis builds and deploys
