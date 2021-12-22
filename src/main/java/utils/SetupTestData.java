@@ -35,9 +35,11 @@ public class SetupTestData {
         nDTO = new NamespacesDTO(em.createNamedQuery("Namespace.getAllRows").getResultList());
 
         if (nDTO.getAll().isEmpty()) {
-            java.nio.file.Path path = Paths.get("C:\\Users\\jplm\\Desktop\\Afsluttende datamatiker eksamen\\Backend\\src\\main\\java\\utils\\files\\ns.txt");
+           // java.nio.file.Path path = Paths.get("C:\\Users\\jplm\\Desktop\\Afsluttende datamatiker eksamen\\Backend\\src\\main\\java\\utils\\files\\ns.txt");
+            java.nio.file.Path path = Paths.get("./src/main/java/utils/files/ns.txt");
             System.out.println(path);
 
+            System.out.println("PATHATHATH " + path.getFileName() );
             BufferedReader reader = Files.newBufferedReader(path);
             String line = reader.readLine();
 
