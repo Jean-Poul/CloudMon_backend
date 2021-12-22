@@ -38,11 +38,11 @@ public class SetupTestData {
             // java.nio.file.Path path = Paths.get("C:\\Users\\jplm\\Desktop\\Afsluttende datamatiker eksamen\\Backend\\src\\main\\java\\utils\\files\\ns.txt");
             java.nio.file.Path path = Paths.get("./src/main/java/utils/files/ns.txt");
             System.out.println(path);
-
-            String basePath = new java.io.File("").getAbsolutePath();
-            System.out.println("BASESESE: " + basePath);
-
-            System.out.println("PATHATHATH " + path.getFileName());
+//String localDir = System.getProperty("user.dir");
+//            String basePath = new java.io.File("").getAbsolutePath();
+//            System.out.println("BASESESE: " + basePath);
+//
+//            System.out.println("PATHATHATH " + path.getFileName());
             BufferedReader reader = Files.newBufferedReader(path);
             String line = reader.readLine();
 
