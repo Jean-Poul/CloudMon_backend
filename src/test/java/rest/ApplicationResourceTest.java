@@ -2,8 +2,6 @@ package rest;
 
 import dto.ApplicationDTO;
 import entities.Application;
-import entities.Role;
-import entities.User;
 import io.restassured.RestAssured;
 import static io.restassured.RestAssured.given;
 import io.restassured.parsing.Parser;
@@ -39,8 +37,6 @@ public class ApplicationResourceTest {
     private static HttpServer httpServer;
     private static EntityManagerFactory emf;
 
-//    public ApplicationResourceTest() {
-//    }
     static HttpServer startServer() {
         ResourceConfig rc = ResourceConfig.forApplication(new ApplicationConfig());
         return GrizzlyHttpServerFactory.createHttpServer(BASE_URI, rc);
@@ -96,7 +92,7 @@ public class ApplicationResourceTest {
     //@Disabled
     @Test
     public void testServerIsUp() {
-        System.out.println("Testing if server up");
+        System.out.println("Testing if server is up");
 
         given()
                 .when()

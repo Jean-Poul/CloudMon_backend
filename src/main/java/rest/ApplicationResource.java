@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package rest;
 
 import com.google.gson.Gson;
@@ -46,7 +42,7 @@ public class ApplicationResource {
      */
 //    public ApplicationResource() {
 //    }
-// slettes højst sandsynligt
+
     /**
      * GET *
      */
@@ -76,13 +72,13 @@ public class ApplicationResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("all")
+    @Path("/all")
     public String getAllApplications() throws NoConnectionException {
         ApplicationsDTO apps = FACADE.getAllApplications();
         return GSON.toJson(apps);
     }
 
-    @Path("{appId}")
+    @Path("/{appId}")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String getApplication(@PathParam("appId") long appId) throws NotFoundException {
@@ -107,7 +103,7 @@ public class ApplicationResource {
     @DELETE
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
-    @Path("delete/{id}")
+    @Path("/delete/{id}")
     public String deleteApplication(@PathParam("id") long id) throws NotFoundException {
         ApplicationDTO appDelete = FACADE.deleteApplication(id);
         return GSON.toJson(appDelete);
@@ -117,7 +113,7 @@ public class ApplicationResource {
      * UPDATE *
      */
     @PUT
-    @Path("update/{id}")
+    @Path("/update/{id}")
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
     public String updateApplication(@PathParam("id") long id, String name) throws NotFoundException {

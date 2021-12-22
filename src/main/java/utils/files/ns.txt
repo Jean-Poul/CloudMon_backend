@@ -1,4 +1,3 @@
-NAME              STATUS   AGE
 cert-manager      Active   15h
 default           Active   66d
 ingress-nginx     Active   66d

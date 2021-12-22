@@ -1,4 +1,3 @@
-NAMESPACE       NAME                                                     READY   STATUS      RESTARTS   AGE     IP             NODE           NOMINATED NODE   READINESS GATES
 cert-manager    cert-manager-6c576bddcf-7vtt9                            1/1     Running     0          15h     10.42.4.88     gc-rook-t005   <none>           <none>
 cert-manager    cert-manager-cainjector-669c966b86-qpmk5                 1/1     Running     0          15h     10.42.4.89     gc-rook-t005   <none>           <none>
 cert-manager    cert-manager-webhook-66c97d5cdf-t2jk7                    1/1     Running     0          15h     10.42.4.90     gc-rook-t005   <none>           <none>
