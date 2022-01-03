@@ -3,10 +3,6 @@ package dto;
 import entities.Application;
 import java.util.Objects;
 
-/**
- *
- * @author jplm
- */
 public class ApplicationDTO {
 
     private Long id;
@@ -16,7 +12,8 @@ public class ApplicationDTO {
     private String name;
     private String version;
     private String location;
-
+    
+    // Constructor
     public ApplicationDTO(Application app) {
         this.id = app.getId();
         this.name = app.getName();
@@ -24,6 +21,7 @@ public class ApplicationDTO {
         this.location = app.getLocation();
     }
 
+    // Getters and setters
     public Long getId() {
         return id;
     }
@@ -64,7 +62,7 @@ public class ApplicationDTO {
         this.location = location;
     }
 
-    // skal nok slettes ellers bruges til test
+    // For test purpose
     @Override
     public int hashCode() {
         int hash = 7;

@@ -3,7 +3,6 @@ package dto;
 import entities.User;
 import java.util.Date;
 import java.util.Objects;
-//import java.sql.Date;
 
 public class UserDTO {
 
@@ -11,15 +10,14 @@ public class UserDTO {
     private String password;
     private Date lastLoginTime;
 
-    public UserDTO() {
-    }
-
+    // Constructor
     public UserDTO(User u) {
         this.userID = u.getUserName();
         this.password = u.getUserPass();
         this.lastLoginTime = u.getLast_loginDate();
     }
 
+    // Getters and setters
     public String getUserID() {
         return userID;
     }
@@ -44,6 +42,7 @@ public class UserDTO {
         this.lastLoginTime = lastLoginTime;
     }
 
+    // For test purpose
     @Override
     public int hashCode() {
         int hash = 7;

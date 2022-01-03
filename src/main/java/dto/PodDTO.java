@@ -1,17 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package dto;
 
 import entities.Pod;
 import java.util.Objects;
 
-/**
- *
- * @author jplm
- */
 public class PodDTO {
 
     private Long id;
@@ -27,6 +19,7 @@ public class PodDTO {
     private String ip;
     private String node;
 
+    // Constructor
     public PodDTO(Pod pod) {
         this.id = pod.getId();
         this.namespace = pod.getNamespace();
@@ -39,6 +32,7 @@ public class PodDTO {
         this.node = pod.getNode();
     }
 
+    // Getters and setters
     public Long getId() {
         return id;
     }
@@ -119,7 +113,7 @@ public class PodDTO {
         this.node = node;
     }
 
-    // skal nok slettes ellers bruges til test
+    // For test purpose
     @Override
     public int hashCode() {
         int hash = 7;

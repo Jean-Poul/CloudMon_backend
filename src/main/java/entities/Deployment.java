@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package entities;
 
 import java.io.Serializable;
@@ -14,10 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-/**
- *
- * @author jplm
- */
 @Entity
 @Table(name = "deployments")
 @NamedQuery(name = "Deployment.deleteAllRows", query = "DELETE from Deployment")
@@ -39,6 +31,7 @@ public class Deployment implements Serializable {
     private String images;
     private String selector;
 
+    // Constructors
     public Deployment() {
 
     }
@@ -55,6 +48,7 @@ public class Deployment implements Serializable {
         this.selector = selector;
     }
 
+    // Getters and setters
     public Long getId() {
         return id;
     }
@@ -135,6 +129,7 @@ public class Deployment implements Serializable {
         this.selector = selector;
     }
 
+    // For test purpose
     @Override
     public int hashCode() {
         int hash = 3;
@@ -196,10 +191,10 @@ public class Deployment implements Serializable {
         return true;
     }
 
-
+    // Information
     @Override
     public String toString() {
-        return "entities.Deployment[ id=" + id + " ]";
+        return "Deployment{" + "id=" + id + ", namespace=" + namespace + ", name=" + name + ", ready=" + ready + ", uptodate=" + uptodate + ", available=" + available + ", age=" + age + ", containers=" + containers + ", images=" + images + ", selector=" + selector + '}';
     }
 
 }

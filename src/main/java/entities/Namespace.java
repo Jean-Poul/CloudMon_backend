@@ -2,11 +2,11 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
@@ -15,9 +15,6 @@ import javax.persistence.Table;
 @Table(name = "namespaces")
 @NamedQuery(name = "Namespace.deleteAllRows", query = "DELETE from Namespace")
 @NamedQuery(name = "Namespace.getAllRows", query = "SELECT ns from Namespace ns")
-//@NamedQueries({
-//    @NamedQuery(name = "Namespace.deleteAllRows", query = "DELETE from Namespace"),
-//    @NamedQuery(name = "Namespace.getAllRows", query = "SELECT ns from Namespace ns")})
 public class Namespace implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -29,6 +26,7 @@ public class Namespace implements Serializable {
     private String status;
     private String age;
 
+    // Constructors
     public Namespace() {
 
     }
@@ -39,6 +37,7 @@ public class Namespace implements Serializable {
         this.age = age;
     }
 
+    // Getters and setters
     public Long getId() {
         return id;
     }
@@ -71,30 +70,48 @@ public class Namespace implements Serializable {
         this.age = age;
     }
 
-    // delete når alt virker
+    // For test purpose
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 7;
+        hash = 29 * hash + Objects.hashCode(this.id);
+        hash = 29 * hash + Objects.hashCode(this.name);
+        hash = 29 * hash + Objects.hashCode(this.status);
+        hash = 29 * hash + Objects.hashCode(this.age);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Namespace)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Namespace other = (Namespace) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Namespace other = (Namespace) obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.status, other.status)) {
+            return false;
+        }
+        if (!Objects.equals(this.age, other.age)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
     }
-
+    
+    // Information
     @Override
     public String toString() {
-        return "entities.Namespace[ id=" + id + " ]";
+        return "Namespace{" + "id=" + id + ", name=" + name + ", status=" + status + ", age=" + age + '}';
     }
-
+    
 }

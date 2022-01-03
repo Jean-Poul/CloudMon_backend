@@ -23,9 +23,11 @@ public class Role implements Serializable {
     @Column(name = "role_name", length = 20)
     private String roleName;
     
+    // Relation
     @ManyToMany(mappedBy = "roleList")
     private List<User> userList;
 
+    // Constructors
     public Role() {
     }
 
@@ -33,6 +35,7 @@ public class Role implements Serializable {
         this.roleName = roleName;
     }
 
+    // Getters and setters
     public String getRoleName() {
         return roleName;
     }

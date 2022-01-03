@@ -1,6 +1,7 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,6 +24,7 @@ public class Application implements Serializable {
     private String version;
     private String location;
 
+    // Constructors
     public Application() {
 
     }
@@ -33,6 +35,7 @@ public class Application implements Serializable {
         this.location = location;
     }
 
+    // Getters and setters
     public Long getId() {
         return id;
     }
@@ -65,30 +68,48 @@ public class Application implements Serializable {
         this.location = location;
     }
 
-    // delete når alt virker
+    // For test purpose
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 5;
+        hash = 67 * hash + Objects.hashCode(this.id);
+        hash = 67 * hash + Objects.hashCode(this.name);
+        hash = 67 * hash + Objects.hashCode(this.version);
+        hash = 67 * hash + Objects.hashCode(this.location);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Application)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Application other = (Application) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Application other = (Application) obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.version, other.version)) {
+            return false;
+        }
+        if (!Objects.equals(this.location, other.location)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
     }
 
+    // Information
     @Override
     public String toString() {
-        return "entities.Application[ id=" + id + " ]";
+        return "Application{" + "id=" + id + ", name=" + name + ", version=" + version + ", location=" + location + '}';
     }
 
 }

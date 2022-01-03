@@ -1,11 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package entities;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,10 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-/**
- *
- * @author jplm
- */
 @Entity
 @Table(name = "pods")
 @NamedQuery(name = "Pod.deleteAllRows", query = "DELETE from Pod")
@@ -37,6 +30,7 @@ public class Pod implements Serializable {
     private String ip;
     private String node;
 
+    // Constructors
     public Pod() {
 
     }
@@ -52,6 +46,7 @@ public class Pod implements Serializable {
         this.node = node;
     }
 
+    // Getters and setters
     public Long getId() {
         return id;
     }
@@ -124,29 +119,68 @@ public class Pod implements Serializable {
         this.node = node;
     }
 
+    // For testing purpose
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.id);
+        hash = 97 * hash + Objects.hashCode(this.namespace);
+        hash = 97 * hash + Objects.hashCode(this.name);
+        hash = 97 * hash + Objects.hashCode(this.ready);
+        hash = 97 * hash + Objects.hashCode(this.status);
+        hash = 97 * hash + Objects.hashCode(this.restarts);
+        hash = 97 * hash + Objects.hashCode(this.age);
+        hash = 97 * hash + Objects.hashCode(this.ip);
+        hash = 97 * hash + Objects.hashCode(this.node);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Pod)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Pod other = (Pod) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Pod other = (Pod) obj;
+        if (!Objects.equals(this.namespace, other.namespace)) {
+            return false;
+        }
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.ready, other.ready)) {
+            return false;
+        }
+        if (!Objects.equals(this.status, other.status)) {
+            return false;
+        }
+        if (!Objects.equals(this.restarts, other.restarts)) {
+            return false;
+        }
+        if (!Objects.equals(this.age, other.age)) {
+            return false;
+        }
+        if (!Objects.equals(this.ip, other.ip)) {
+            return false;
+        }
+        if (!Objects.equals(this.node, other.node)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
     }
 
+    // Information
     @Override
     public String toString() {
-        return "entities.Pod[ id=" + id + " ]";
+        return "Pod{" + "id=" + id + ", namespace=" + namespace + ", name=" + name + ", ready=" + ready + ", status=" + status + ", restarts=" + restarts + ", age=" + age + ", ip=" + ip + ", node=" + node + '}';
     }
 
 }

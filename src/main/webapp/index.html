@@ -7,31 +7,31 @@
     <body>
         <h1>Hello Teachers!</h1>
         <div>
-            
-                <br/>
-            <h2> Guide for using this code </h2><br/>
+
+            <br/>
+            <h2> Guide for using this code </h2>
             <p>
-                1. Clone the code into af folder of your choosing.<br/>
-                2. Start up the project in Netbeans<br/>
+                1. Clone the code into a folder of your choosing.<br/>
+                2. Start up the project in Netbeans.<br/>
                 3. In the pom.xml file go to "< remote.server >"https://www.jplm.dk/manager/text"< /remote.server >" in line 21. Change to your own droplet.<br/>
                 4. Open up workbench and set up your databases both for production and for testing<br/>
                 5. Go the persistence.xml file in line 21 and change the value to point at your own database. Do the same in line 35 regarding your test database.<br/>
                 6. Open the EMF_Creator.java file. Change line 43 and 46 to point at your CONNECTION_STR on your virtual machine. (Can be found in the docker-compose.yml file)<br/>
                 7. Make sure to Clean and build the project and run the SetupTestUsers.java which populates the database. <br/>
                 8. Now migrate the database to your droplet using the wizard in workbench.<br/>
-                9. Go to https://travis-ci.com/ and connect to your GitHub account. Give Travis access to your repository on GitHub so Travis can deploy your war file for you, after each successful build. Remember to add environment varibles (user and password) for your virtual machine since Travis can't deploy without this.<br/>
+                9. Go to https://travis-ci.com/ and connect to your GitHub account. Give Travis access to your repository on GitHub so Travis can deploy your war file for you, after each successful build. Remember to add environment variables (user and password) for your virtual machine since Travis can't deploy without this.<br/>
                 <br/>
-                ## You're now ready to use the code properly.<br/>
-                Run your project local or online and test the following endpoints<br/>
-                <br/>
-                <br/>
-                GET methods:<br/>
-                <br/>
-                1. http://localhost:8080/cloudmon/api/kubernetes/namespaces (KubernetesResource.java) will let you see information about all namespaces.<br/>
-                <br/>
-                2. http://localhost:8080/cloudmon/api/apps/all (ApplicationResource.java) will let you see information about all applications added to the database.<br/>
-                <br/>
-            </p>
-        </div>
-    </body>
+            <h2>You're now ready to use the code properly. </h2>
+            Run your project local or online and test the following endpoints<br/>
+            <br/>
+            <br/>
+            GET methods:<br/>
+            <br/>
+            1. http://localhost:8080/cloudmon/api/kubernetes/namespaces (KubernetesResource.java) will let you see information about all namespaces.<br/>
+            <br/>
+            2. http://localhost:8080/cloudmon/api/apps/all (ApplicationResource.java) will let you see information about all applications added to the database.<br/>
+            <br/>
+        </p>
+    </div>
+</body>
 </html>

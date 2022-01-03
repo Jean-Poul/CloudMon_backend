@@ -23,7 +23,6 @@ import org.mindrot.jbcrypt.BCrypt;
 @Table(name = "users")
 @NamedQuery(name = "User.deleteAllRows", query = "DELETE from User")
 @NamedQuery(name = "User.getAllRows", query = "SELECT u from User u")
-
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,6 +39,8 @@ public class User implements Serializable {
     @JoinTable(name = "user_roles", joinColumns = {
         @JoinColumn(name = "user_name", referencedColumnName = "user_name")}, inverseJoinColumns = {
         @JoinColumn(name = "role_name", referencedColumnName = "role_name")})
+
+    // Relation
     @ManyToMany
     private List<Role> roleList = new ArrayList<>();
 
@@ -47,6 +48,7 @@ public class User implements Serializable {
     @Column(name = "last_login")
     private Date last_loginDate;
 
+    // List all roles
     public List<String> getRolesAsStrings() {
         if (roleList.isEmpty()) {
             return null;
@@ -58,15 +60,8 @@ public class User implements Serializable {
         return rolesAsStrings;
     }
 
+    // Constructors
     public User() {
-    }
-//
-//    public User(Date date) {
-//    this.last_loginDate = date;
-//    }
-
-    public boolean verifyPassword(String pw) {
-        return (BCrypt.checkpw(pw, this.userPass));
     }
 
     public User(String userName, String userPass) {
@@ -75,6 +70,12 @@ public class User implements Serializable {
         this.userPass = BCrypt.hashpw(userPass, BCrypt.gensalt(12));
     }
 
+    // Bcrypt method for verifying hashed strings
+    public boolean verifyPassword(String pw) {
+        return (BCrypt.checkpw(pw, this.userPass));
+    }
+
+    // Getters and setters
     public String getUserName() {
         return userName;
     }
@@ -111,6 +112,7 @@ public class User implements Serializable {
         this.last_loginDate = last_loginDate;
     }
 
+    // For test purpose
     @Override
     public int hashCode() {
         int hash = 7;
@@ -146,6 +148,12 @@ public class User implements Serializable {
             return false;
         }
         return true;
+    }
+
+    // Information
+    @Override
+    public String toString() {
+        return "User{" + "userName=" + userName + ", userPass=" + userPass + ", roleList=" + roleList + ", last_loginDate=" + last_loginDate + '}';
     }
 
 }
