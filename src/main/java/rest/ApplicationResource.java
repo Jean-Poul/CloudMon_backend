@@ -1,4 +1,3 @@
-
 package rest;
 
 import com.google.gson.Gson;
@@ -38,20 +37,16 @@ public class ApplicationResource {
     private UriInfo context;
 
     /**
-     * Creates a new instance of ApplicationResource
-     */
-//    public ApplicationResource() {
-//    }
-
-    /**
      * GET *
      */
+    // To verify if there is a connection to the endpoint apps
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getInfoForAll() {
         return "{\"msg\":\"Hello from application\"}";
     }
 
+    // Ping reponse
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/ping")
@@ -63,11 +58,8 @@ public class ApplicationResource {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String getApplicationCount() throws NoConnectionException {
-
         long count = FACADE.getApplicationCount();
-
-        return "{\"count\":" + count + "}";  //Done manually so no need for a DTO
-
+        return "{\"count\":" + count + "}";  // Done manually so no need for a DTO
     }
 
     @GET
@@ -122,29 +114,5 @@ public class ApplicationResource {
         ApplicationDTO appNew = FACADE.updateApplication(appDTO);
         return GSON.toJson(appNew);
     }
-
-//    @PUT
-//    @Path("update")
-//    @Produces({MediaType.APPLICATION_JSON})
-//    @Consumes({MediaType.APPLICATION_JSON})
-//    public Response updatePerson(String person) throws NotFoundException {
-//        PersonDTO personDTO = GSON.fromJson(person, PersonDTO.class);
-//        FACADE.updatePerson(personDTO);
-//        return Response.status(Response.Status.OK).entity("Person updated OK").build();
-//    }
-//    @PUT
-//    @Path("update")
-////@Path("update/{name}")
-//    @Produces({MediaType.APPLICATION_JSON})
-//    @Consumes({MediaType.APPLICATION_JSON})
-////public String updateApplication(@PathParam("name") String name, String app) throws NotFoundException {
-//    public String updateApplication(String app) throws NotFoundException {
-//        //   System.out.println("NAME: " + name);
-//        System.out.println("APP: " + app);
-//        ApplicationDTO appDTO = GSON.fromJson(app, ApplicationDTO.class);
-//        //  appDTO.setName(name);
-//        ApplicationDTO newApp = FACADE.updateApplication(appDTO);
-//        return GSON.toJson(newApp);
-//    }
 
 }

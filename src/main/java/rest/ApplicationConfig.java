@@ -3,6 +3,7 @@ package rest;
 import java.util.Set;
 import javax.ws.rs.core.Application;
 
+// Class to contain all our resources
 @javax.ws.rs.ApplicationPath("api")
 public class ApplicationConfig extends Application {
 

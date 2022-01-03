@@ -50,6 +50,7 @@ public class UserResource {
         return "{\"msg\":\"Hello from users\"}";
     }
 
+    // Ping reponse
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/ping")
@@ -61,11 +62,8 @@ public class UserResource {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String getUserCount() throws NoConnectionException {
-
         long count = FACADE.getUserCount();
-
         return "{\"count\":" + count + "}";  //Done manually so no need for a DTO
-
     }
 
     @GET
@@ -74,15 +72,6 @@ public class UserResource {
     public String allUsers() throws NoConnectionException {
         UsersDTO users = FACADE.getAllUsers();
         return GSON.toJson(users);
-//        EntityManager em = EMF.createEntityManager();
-//        try {
-//            TypedQuery<User> query = em.createQuery("select u from User u", entities.User.class);
-//            List<User> users = query.getResultList();
-//            return "[" + users.size() + "]";
-//        } finally {
-//            em.close();
-//        }
-
     }
 
     @GET
@@ -92,7 +81,6 @@ public class UserResource {
     public String getFromUser() {
         String thisuser = securityContext.getUserPrincipal().getName();
         return "{\"msg\": \"Hej " + thisuser + " du er ved at logge ud.\"}";
-        //return "{\"msg\": \"Hello to User: " + thisuser + "\"}";
     }
 
     @GET
@@ -102,7 +90,6 @@ public class UserResource {
     public String getFromAdmin() {
         String thisuser = securityContext.getUserPrincipal().getName();
         return "{\"msg\": \"Hej " + thisuser + " du er ved at logge ud.\"}";
-        //return "{\"msg\": \"Hello to (admin) User: " + thisuser + "\"}";
     }
 
     @GET

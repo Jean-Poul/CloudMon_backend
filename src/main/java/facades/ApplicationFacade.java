@@ -13,11 +13,13 @@ public class ApplicationFacade {
     private static EntityManagerFactory emf;
     private static ApplicationFacade instance;
 
+    // Constructor
     private ApplicationFacade() {
 
     }
 
     /**
+     * Singleton
      *
      * @param _emf
      * @return the instance of this facade.
@@ -29,40 +31,65 @@ public class ApplicationFacade {
         }
         return instance;
     }
+
+    // Getter
     private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
+    // Application count
     public long getApplicationCount() throws NoConnectionException {
+        // Database connection
         EntityManager em = getEntityManager();
-// EntityManager em = emf.createEntityManager();
+
         try {
             long appCount = (long) em.createQuery("SELECT COUNT(a) FROM Application a").getSingleResult();
             return appCount;
         } catch (Exception e) {
-            // SKAL HUSKE AT LAVE DENNE EXCEPTION RIGTIG I ERRORHANDLING - Mangler stadig noget arbejde
-            throw new NoConnectionException("No connection to the database");
+            throw new NoConnectionException("No connection to the database. " + e);
         } finally {
             em.close();
         }
     }
 
+    // List of all applications
     public ApplicationsDTO getAllApplications() throws NoConnectionException {
+        // Database connection
         EntityManager em = getEntityManager();
 
         try {
             return new ApplicationsDTO(em.createNamedQuery("Application.getAllRows").getResultList());
         } catch (Exception e) {
-            throw new NoConnectionException("No connection to the database");
+            throw new NoConnectionException("No connection to the database. " + e);
         } finally {
             em.close();
         }
 
     }
 
-    public ApplicationDTO addApplication(String name, String version, String location) throws NoConnectionException {
+// Get an application with a given id
+    public ApplicationDTO getApplication(long appId) throws NotFoundException {
+        // Database connection
         EntityManager em = getEntityManager();
-//EntityManager em = emf.createEntityManager();
+
+        // Find application
+        Application app = em.find(Application.class, appId);
+
+        if (app == null) {
+            throw new NotFoundException("No App with provided App name found");
+        } else {
+            try {
+                return new ApplicationDTO(app);
+            } finally {
+                em.close();
+            }
+        }
+    }
+
+    // Add an application
+    public ApplicationDTO addApplication(String name, String version, String location) throws NoConnectionException {
+        // Database connection
+        EntityManager em = getEntityManager();
 
         Application app = new Application(name, version, location);
 
@@ -71,19 +98,19 @@ public class ApplicationFacade {
             em.persist(app);
             em.getTransaction().commit();
         } catch (Exception e) {
-            // SKAL HUSKE AT LAVE DENNE EXCEPTION RIGTIG I ERRORHANDLING - Mangler stadig noget arbejde
-
-            throw new NoConnectionException("No connection to the database");
+            throw new NoConnectionException("No connection to the database. " + e);
         } finally {
             em.close();
         }
         return new ApplicationDTO(app);
     }
 
+    // Delete application with an id
     public ApplicationDTO deleteApplication(long id) throws NotFoundException {
+        // Database connection
         EntityManager em = getEntityManager();
-//EntityManager em = emf.createEntityManager();
 
+        // Find application to delete
         Application app = em.find(Application.class, id);
 
         if (app == null) {
@@ -100,16 +127,16 @@ public class ApplicationFacade {
         }
     }
 
+    // Update application
     public ApplicationDTO updateApplication(ApplicationDTO a) throws NotFoundException {
-        System.out.println("FACADE app: " + "NAME: " + a.getName() + " VERSION: " + a.getVersion() + " ID: " + a.getId());
 
+        // Validating input
         if (isNameInvalid(a.getId(), a.getName(), a.getVersion(), a.getLocation())) {
-            //  throw new MissingInputException("Name, email, password or phone is missing");
             throw new NotFoundException("Name, version or location is missing");
         }
 
+        // Database connection
         EntityManager em = getEntityManager();
-//EntityManager em = emf.createEntityManager();
 
         try {
             em.getTransaction().begin();
@@ -128,24 +155,7 @@ public class ApplicationFacade {
         }
     }
 
-    public ApplicationDTO getApplication(long appId) throws NotFoundException {
-        EntityManager em = getEntityManager();
-        //EntityManager em = emf.createEntityManager();
-
-        Application app = em.find(Application.class, appId);
-
-        if (app == null) {
-            throw new NotFoundException("No App with provided App name found");
-        } else {
-            try {
-                return new ApplicationDTO(app);
-            } finally {
-                em.close();
-            }
-        }
-    }
-
-// Validation
+    // Validation method
     private static boolean isNameInvalid(long id, String name, String version, String location) {
         return (id == 0) || (name.length() == 0) || (version.length() == 0) || (location.length() == 0);
     }
