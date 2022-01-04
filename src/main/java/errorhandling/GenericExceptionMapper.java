@@ -12,9 +12,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+// Take an existing Exception, and Map it into a response
 @Provider
 public class GenericExceptionMapper implements ExceptionMapper<Throwable> {
-
     // Default is minified but since we are in development pretty printing is used to format the JSON output
     static Gson gson = new GsonBuilder().setPrettyPrinting().create();
     @Context
@@ -24,8 +24,10 @@ public class GenericExceptionMapper implements ExceptionMapper<Throwable> {
     @Override
     public Response toResponse(Throwable ex) {
         Logger.getLogger(GenericExceptionMapper.class.getName()).log(Level.SEVERE, null, ex);
+
         Response.StatusType type = getStatusType(ex);
         ExceptionDTO err;
+
         if (ex instanceof WebApplicationException) {
             err = new ExceptionDTO(type.getStatusCode(), ((WebApplicationException) ex).getMessage());
         } else {
@@ -49,6 +51,7 @@ public class GenericExceptionMapper implements ExceptionMapper<Throwable> {
     public static Response makeErrRes(String msg, int status) {
         ExceptionDTO error = new ExceptionDTO(status, msg);
         String errJson = gson.toJson(error);
+
         return Response.status(error.getCode())
                 .entity(errJson)
                 .type(MediaType.APPLICATION_JSON)

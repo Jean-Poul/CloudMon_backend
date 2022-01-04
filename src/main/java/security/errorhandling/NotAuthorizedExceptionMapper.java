@@ -13,20 +13,21 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+// Take an existing Exception, and Map it into a response
 @Provider
 public class NotAuthorizedExceptionMapper implements ExceptionMapper<NotAuthorizedException> {
-
+    // Default is minified but since we are in development pretty printing is used to format the JSON output
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final int ERROR_CODE = 401;
     @Context
     ServletContext context;
     
-
+    // NotAuthorizedException response
     @Override
     public Response toResponse(NotAuthorizedException ex) {
-        //Logger.getLogger(GenericExceptionMapper.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(NotAuthorizedExceptionMapper.class.getName()).log(Level.SEVERE, null, ex);
+
         ExceptionDTO err = new ExceptionDTO(ERROR_CODE, ex.getMessage());
-        return Response.status(ERROR_CODE).entity(gson.toJson(err)).type(MediaType.APPLICATION_JSON).build();
-              
+        return Response.status(ERROR_CODE).entity(gson.toJson(err)).type(MediaType.APPLICATION_JSON).build();  
     }   
 }

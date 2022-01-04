@@ -4,6 +4,7 @@ import java.security.Principal;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.SecurityContext;
 
+// Determine access rights to objects and request filter
 public class JWTSecurityContext implements SecurityContext {
 
     UserPrincipal user;
@@ -31,6 +32,6 @@ public class JWTSecurityContext implements SecurityContext {
 
     @Override
     public String getAuthenticationScheme() {
-        return "JWT"; //Only for INFO
+        return "JWT"; // Only for INFO
     }
 }

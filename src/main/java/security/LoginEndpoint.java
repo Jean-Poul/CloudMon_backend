@@ -28,10 +28,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import utils.EMF_Creator;
 
+// Login and create a token for a user
 @Path("login")
 public class LoginEndpoint {
 
-    public static final int TOKEN_EXPIRE_TIME = 1000 * 60 * 30; //30 min
+    public static final int TOKEN_EXPIRE_TIME = 1000 * 60 * 30; // 30 min
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
     public static final UserFacade USER_FACADE = UserFacade.getUserFacade(EMF);
 
@@ -43,9 +44,7 @@ public class LoginEndpoint {
         String username = json.get("username").getAsString();
         String password = json.get("password").getAsString();
 
-        System.out.println(username);
-        System.out.println(password);
-
+        // Store a login time in the database
         try {
             User user = USER_FACADE.getVerifiedUser(username, password);
             String token = createToken(username, user.getRolesAsStrings());
@@ -56,15 +55,8 @@ public class LoginEndpoint {
             EntityManager em = EMF.createEntityManager();
             User u = em.find(User.class, user.getUserName());
 
-            System.out.println("TOKEN ::: " + token);
-
-            System.out.println("USER ::: " + u.getLast_loginDate());
-
-            //  Date date = new Date();
             java.util.Date date = new java.util.Date();
             u.setLast_loginDate(date);
-
-            System.out.println("NEW DATE ::: " + u.getLast_loginDate());
 
             try {
                 em.getTransaction().begin();
@@ -74,7 +66,6 @@ public class LoginEndpoint {
                 em.close();
             }
             return Response.ok(new Gson().toJson(responseJson)).build();
-
         } catch (JOSEException | AuthenticationException ex) {
             if (ex instanceof AuthenticationException) {
                 throw (AuthenticationException) ex;
@@ -85,14 +76,14 @@ public class LoginEndpoint {
     }
 
     private String createToken(String userName, List<String> roles) throws JOSEException {
-
         StringBuilder res = new StringBuilder();
+
         for (String string : roles) {
             res.append(string);
             res.append(",");
         }
+
         String rolesAsString = res.length() > 0 ? res.substring(0, res.length() - 1) : "";
-//        String issuer = "CA3-gruppe-8";
         String issuer = "cloudmon";
 
         JWSSigner signer = new MACSigner(SharedSecret.getSharedKey());
@@ -108,6 +99,5 @@ public class LoginEndpoint {
         SignedJWT signedJWT = new SignedJWT(new JWSHeader(JWSAlgorithm.HS256), claimsSet);
         signedJWT.sign(signer);
         return signedJWT.serialize();
-
     }
 }
