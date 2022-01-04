@@ -1,4 +1,3 @@
-
 package entities;
 
 import java.io.Serializable;
@@ -10,12 +9,11 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-
 @Entity
-@Table(name = "namespaces")
-@NamedQuery(name = "Namespace.deleteAllRows", query = "DELETE from Namespace")
-@NamedQuery(name = "Namespace.getAllRows", query = "SELECT ns from Namespace ns")
-public class Namespace implements Serializable {
+@Table(name = "application")
+@NamedQuery(name = "Application.deleteAllRows", query = "DELETE from Application")
+@NamedQuery(name = "Application.getAllRows", query = "SELECT p from Application p")
+public class Application implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -23,18 +21,18 @@ public class Namespace implements Serializable {
     private Long id;
 
     private String name;
-    private String status;
-    private String age;
+    private String version;
+    private String location;
 
     // Constructors
-    public Namespace() {
+    public Application() {
 
     }
 
-    public Namespace(String name, String status, String age) {
+    public Application(String name, String version, String location) {
         this.name = name;
-        this.status = status;
-        this.age = age;
+        this.version = version;
+        this.location = location;
     }
 
     // Getters and setters
@@ -54,30 +52,30 @@ public class Namespace implements Serializable {
         this.name = name;
     }
 
-    public String getStatus() {
-        return status;
+    public String getVersion() {
+        return version;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setVersion(String version) {
+        this.version = version;
     }
 
-    public String getAge() {
-        return age;
+    public String getLocation() {
+        return location;
     }
 
-    public void setAge(String age) {
-        this.age = age;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     // For test purpose
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 29 * hash + Objects.hashCode(this.id);
-        hash = 29 * hash + Objects.hashCode(this.name);
-        hash = 29 * hash + Objects.hashCode(this.status);
-        hash = 29 * hash + Objects.hashCode(this.age);
+        int hash = 5;
+        hash = 67 * hash + Objects.hashCode(this.id);
+        hash = 67 * hash + Objects.hashCode(this.name);
+        hash = 67 * hash + Objects.hashCode(this.version);
+        hash = 67 * hash + Objects.hashCode(this.location);
         return hash;
     }
 
@@ -92,14 +90,14 @@ public class Namespace implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Namespace other = (Namespace) obj;
+        final Application other = (Application) obj;
         if (!Objects.equals(this.name, other.name)) {
             return false;
         }
-        if (!Objects.equals(this.status, other.status)) {
+        if (!Objects.equals(this.version, other.version)) {
             return false;
         }
-        if (!Objects.equals(this.age, other.age)) {
+        if (!Objects.equals(this.location, other.location)) {
             return false;
         }
         if (!Objects.equals(this.id, other.id)) {
@@ -107,11 +105,11 @@ public class Namespace implements Serializable {
         }
         return true;
     }
-    
+
     // Information
     @Override
     public String toString() {
-        return "Namespace{" + "id=" + id + ", name=" + name + ", status=" + status + ", age=" + age + '}';
+        return "Application{" + "id=" + id + ", name=" + name + ", version=" + version + ", location=" + location + '}';
     }
-    
+
 }

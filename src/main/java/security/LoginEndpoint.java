@@ -24,64 +24,80 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import security.errorhandling.AuthenticationException;
 import errorhandling.GenericExceptionMapper;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import utils.EMF_Creator;
 
+// Login and create a token for a user
 @Path("login")
 public class LoginEndpoint {
 
-  public static final int TOKEN_EXPIRE_TIME = 1000 * 60 * 30; //30 min
-  private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
-  public static final UserFacade USER_FACADE = UserFacade.getUserFacade(EMF);
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response login(String jsonString) throws AuthenticationException {
-    JsonObject json = JsonParser.parseString(jsonString).getAsJsonObject();
-    String username = json.get("username").getAsString();
-    String password = json.get("password").getAsString();
+    public static final int TOKEN_EXPIRE_TIME = 1000 * 60 * 30; // 30 min
+    private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
+    public static final UserFacade USER_FACADE = UserFacade.getUserFacade(EMF);
 
-    try {
-      User user = USER_FACADE.getVeryfiedUser(username, password);
-      String token = createToken(username, user.getRolesAsStrings());
-      JsonObject responseJson = new JsonObject();
-      responseJson.addProperty("username", username);
-      responseJson.addProperty("token", token);
-      return Response.ok(new Gson().toJson(responseJson)).build();
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response login(String jsonString) throws AuthenticationException {
+        JsonObject json = JsonParser.parseString(jsonString).getAsJsonObject();
+        String username = json.get("username").getAsString();
+        String password = json.get("password").getAsString();
 
-    } catch (JOSEException | AuthenticationException ex) {
-      if (ex instanceof AuthenticationException) {
-        throw (AuthenticationException) ex;
-      }
-      Logger.getLogger(GenericExceptionMapper.class.getName()).log(Level.SEVERE, null, ex);
+        // Store a login time in the database
+        try {
+            User user = USER_FACADE.getVerifiedUser(username, password);
+            String token = createToken(username, user.getRolesAsStrings());
+            JsonObject responseJson = new JsonObject();
+            responseJson.addProperty("username", username);
+            responseJson.addProperty("token", token);
+
+            EntityManager em = EMF.createEntityManager();
+            User u = em.find(User.class, user.getUserName());
+
+            java.util.Date date = new java.util.Date();
+            u.setLast_loginDate(date);
+
+            try {
+                em.getTransaction().begin();
+                em.merge(u);
+                em.getTransaction().commit();
+            } finally {
+                em.close();
+            }
+            return Response.ok(new Gson().toJson(responseJson)).build();
+        } catch (JOSEException | AuthenticationException ex) {
+            if (ex instanceof AuthenticationException) {
+                throw (AuthenticationException) ex;
+            }
+            Logger.getLogger(GenericExceptionMapper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        throw new AuthenticationException("Invalid username or password! Please try again");
     }
-    throw new AuthenticationException("Invalid username or password! Please try again");
-  }
 
-  private String createToken(String userName, List<String> roles) throws JOSEException {
+    private String createToken(String userName, List<String> roles) throws JOSEException {
+        StringBuilder res = new StringBuilder();
 
-    StringBuilder res = new StringBuilder();
-    for (String string : roles) {
-      res.append(string);
-      res.append(",");
+        for (String string : roles) {
+            res.append(string);
+            res.append(",");
+        }
+
+        String rolesAsString = res.length() > 0 ? res.substring(0, res.length() - 1) : "";
+        String issuer = "cloudmon";
+
+        JWSSigner signer = new MACSigner(SharedSecret.getSharedKey());
+        Date date = new Date();
+        JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
+                .subject(userName)
+                .claim("username", userName)
+                .claim("roles", rolesAsString)
+                .claim("issuer", issuer)
+                .issueTime(date)
+                .expirationTime(new Date(date.getTime() + TOKEN_EXPIRE_TIME))
+                .build();
+        SignedJWT signedJWT = new SignedJWT(new JWSHeader(JWSAlgorithm.HS256), claimsSet);
+        signedJWT.sign(signer);
+        return signedJWT.serialize();
     }
-    String rolesAsString = res.length() > 0 ? res.substring(0, res.length() - 1) : "";
-    String issuer = "CA3-gruppe-8";
-
-    JWSSigner signer = new MACSigner(SharedSecret.getSharedKey());
-    Date date = new Date();
-    JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
-            .subject(userName)
-            .claim("username", userName)
-            .claim("roles", rolesAsString)
-            .claim("issuer", issuer)
-            .issueTime(date)
-            .expirationTime(new Date(date.getTime() + TOKEN_EXPIRE_TIME))
-            .build();
-    SignedJWT signedJWT = new SignedJWT(new JWSHeader(JWSAlgorithm.HS256), claimsSet);
-    signedJWT.sign(signer);
-    return signedJWT.serialize();
-
-  }
 }

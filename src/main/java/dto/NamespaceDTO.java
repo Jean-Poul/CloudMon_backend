@@ -1,19 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package dto;
 
 import entities.Namespace;
 import java.util.Objects;
 
-/**
- *
- * @author jplm
- */
+
 public class NamespaceDTO {
-    
+
     private Long id;
 
     private Namespace namespace;
@@ -21,12 +14,8 @@ public class NamespaceDTO {
     private String name;
     private String status;
     private String age;
-    
 
-// skal nok slettes men er her hvis noget crasher
-//    public NamespaceDTO() {
-//
-//    }
+    // Constructor
     public NamespaceDTO(Namespace namespace) {
         this.id = namespace.getId();
         this.name = namespace.getName();
@@ -34,6 +23,7 @@ public class NamespaceDTO {
         this.age = namespace.getAge();
     }
 
+    // Getters and setters
     public Namespace getNamespace() {
         return namespace;
     }
@@ -74,7 +64,7 @@ public class NamespaceDTO {
         this.id = id;
     }
 
-    // skal nok slettes ellers bruges til test
+    // For test purpose
     @Override
     public int hashCode() {
         int hash = 7;

@@ -1,11 +1,9 @@
 package errorhandling;
 
-/**
- *
- * @author lam@cphbusiness.dk
- */
+// Homemade exception
 public class NotFoundException extends Exception {
 
+    // Constructors
     public NotFoundException(String message) {
         super(message);
     }

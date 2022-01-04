@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <groupId>com.CloudMon</groupId>
-    <artifactId>Boilerplate-Backend</artifactId>
+    <!-- groupid: name of company, group or organization -->
+    <groupId>com.cloudmon</groupId>
+    <!-- artifactid: name of this project -->
+    <artifactId>cloudmon</artifactId>
+    <!-- version: release version (SNAPSHOT if under development) -->
     <version>1.0</version>
+    <!-- packaging: file type -->
     <packaging>war</packaging>
 
-    <name>Boilerplate-Backend</name>
-
+    <name>cloudmon</name>
+    <!-- properties -->
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         
-        <!-- TODO: Add the URL to your own tomcat server. Used to deploy your WAR-file -->
         <!-- IMPORTANT-1: If your server uses https (via NGINX) use your DOMAIN NAME and https below: -->
         <!-- IMPORTANT-2: Observe we are NOT using /manager/html but /manager/text for script uploads --> 
         <remote.server>https://www.jplm.dk/manager/text</remote.server>
         
     </properties>
-    
+    <!-- dependencies -->
     <dependencies>
         
         <dependency>
@@ -63,6 +65,7 @@
             <artifactId>junit-jupiter-api</artifactId>
             <version>5.7.0</version>
             <scope>test</scope>
+            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -116,7 +119,7 @@
     </dependencies>
 
     <build>
-       
+        <!-- plugins -->
         <plugins>
             <!-- Plugin used to deploy to remote server -->
             <plugin>

@@ -1,0 +1,486 @@
+{
+	"info": {
+		"_postman_id": "61526206-a700-4caa-bc75-5a7c134f646f",
+		"name": "5 semester hovedopgave",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Application",
+			"item": [
+				{
+					"name": "Add application info",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n    \"name\": \"GitLab\",\r\n    \"version\": \"3.9\",\r\n    \"location\": \"c009-development\"\r\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/Boilerplate-Backend/api/apps",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Boilerplate-Backend",
+								"api",
+								"apps"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all applications",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/Boilerplate-Backend/api/apps/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Boilerplate-Backend",
+								"api",
+								"apps",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete application with an id",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/Boilerplate-Backend/api/apps/delete/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Boilerplate-Backend",
+								"api",
+								"apps",
+								"delete",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update application info",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"3\",\r\n    \"name\":\"Kubernetes\",\r\n    \"version\":\"1.8\",\r\n    \"location\":\"GovCloud\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/Boilerplate-Backend/api/apps/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Boilerplate-Backend",
+								"api",
+								"apps",
+								"update"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Kubernetes",
+			"item": [
+				{
+					"name": "Get all namespaces",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/Boilerplate-Backend/api/kubernetes/namespaces",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Boilerplate-Backend",
+								"api",
+								"kubernetes",
+								"namespaces"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all services",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/Boilerplate-Backend/api/kubernetes/services",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Boilerplate-Backend",
+								"api",
+								"kubernetes",
+								"services"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all deployments",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/Boilerplate-Backend/api/kubernetes/deployments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Boilerplate-Backend",
+								"api",
+								"kubernetes",
+								"deployments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all pods",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/Boilerplate-Backend/api/kubernetes/pods",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Boilerplate-Backend",
+								"api",
+								"kubernetes",
+								"pods"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get all users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiYWRtaW4iLCJleHAiOjE2Mzg1NDQ2ODQsImlhdCI6MTYzODU0Mjg4NCwiaXNzdWVyIjoiQ2xvdWRNb24iLCJ1c2VybmFtZSI6ImFkbWluIn0.glGUzP0U91UaM4lMGz0Hdjn5q7I8yEW9SC9Wdz4c1f4",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/Boilerplate-Backend/api/users/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Boilerplate-Backend",
+								"api",
+								"users",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get admin",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiYWRtaW4iLCJleHAiOjE2Mzg1NDQ2ODQsImlhdCI6MTYzODU0Mjg4NCwiaXNzdWVyIjoiQ2xvdWRNb24iLCJ1c2VybmFtZSI6ImFkbWluIn0.glGUzP0U91UaM4lMGz0Hdjn5q7I8yEW9SC9Wdz4c1f4",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/Boilerplate-Backend/api/users/admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Boilerplate-Backend",
+								"api",
+								"users",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwicm9sZXMiOiJ1c2VyIiwiZXhwIjoxNjM4NTQ1ODUyLCJpYXQiOjE2Mzg1NDQwNTIsImlzc3VlciI6IkNsb3VkTW9uIiwidXNlcm5hbWUiOiJ1c2VyIn0.f7m0kEnLepUO8ur87kjgY36P6Gz99MEzYTWHnXA8848",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/Boilerplate-Backend/api/users/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Boilerplate-Backend",
+								"api",
+								"users",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add user",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiYWRtaW4iLCJleHAiOjE2Mzg1NDQ2ODQsImlhdCI6MTYzODU0Mjg4NCwiaXNzdWVyIjoiQ2xvdWRNb24iLCJ1c2VybmFtZSI6ImFkbWluIn0.glGUzP0U91UaM4lMGz0Hdjn5q7I8yEW9SC9Wdz4c1f4",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userName\":\"tester\",\r\n    \"userPass\":\"test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/Boilerplate-Backend/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Boilerplate-Backend",
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Login with user",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "popcorn",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "user",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"user\",\r\n    \"password\":\"popcorn\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/Boilerplate-Backend/api/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Boilerplate-Backend",
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login with admin",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "popcorn",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"admin\",\r\n    \"password\":\"popcorn\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/Boilerplate-Backend/api/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Boilerplate-Backend",
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

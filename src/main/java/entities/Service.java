@@ -1,11 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package entities;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,12 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-/**
- *
- * @author jplm
- */
+
 @Entity
 @Table(name = "services")
+@NamedQuery(name = "Service.deleteAllRows", query = "DELETE from Service")
 @NamedQuery(name = "Service.getAllRows", query = "SELECT s from Service s")
 public class Service implements Serializable {
 
@@ -36,6 +31,7 @@ public class Service implements Serializable {
     private String age;
     private String selector;
 
+    // Constructors
     public Service() {
 
     }
@@ -51,6 +47,7 @@ public class Service implements Serializable {
         this.selector = selector;
     }
 
+    // Getters and setters
     public Long getId() {
         return id;
     }
@@ -123,29 +120,68 @@ public class Service implements Serializable {
         this.selector = selector;
     }
 
+    // For test purpose
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 7;
+        hash = 71 * hash + Objects.hashCode(this.id);
+        hash = 71 * hash + Objects.hashCode(this.namespace);
+        hash = 71 * hash + Objects.hashCode(this.name);
+        hash = 71 * hash + Objects.hashCode(this.type);
+        hash = 71 * hash + Objects.hashCode(this.clusterip);
+        hash = 71 * hash + Objects.hashCode(this.externalip);
+        hash = 71 * hash + Objects.hashCode(this.port);
+        hash = 71 * hash + Objects.hashCode(this.age);
+        hash = 71 * hash + Objects.hashCode(this.selector);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Service)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Service other = (Service) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Service other = (Service) obj;
+        if (!Objects.equals(this.namespace, other.namespace)) {
+            return false;
+        }
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.type, other.type)) {
+            return false;
+        }
+        if (!Objects.equals(this.clusterip, other.clusterip)) {
+            return false;
+        }
+        if (!Objects.equals(this.externalip, other.externalip)) {
+            return false;
+        }
+        if (!Objects.equals(this.port, other.port)) {
+            return false;
+        }
+        if (!Objects.equals(this.age, other.age)) {
+            return false;
+        }
+        if (!Objects.equals(this.selector, other.selector)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
     }
 
+    // Information
     @Override
     public String toString() {
-        return "entities.Service[ id=" + id + " ]";
+        return "Service{" + "id=" + id + ", namespace=" + namespace + ", name=" + name + ", type=" + type + ", clusterip=" + clusterip + ", externalip=" + externalip + ", port=" + port + ", age=" + age + ", selector=" + selector + '}';
     }
 
 }

@@ -1,17 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package dto;
 
 import entities.Deployment;
 import java.util.Objects;
 
-/**
- *
- * @author jplm
- */
 public class DeploymentDTO {
 
     private long id;
@@ -28,6 +20,7 @@ public class DeploymentDTO {
     private String images;
     private String selector;
 
+    // Constructor
     public DeploymentDTO(Deployment deployment) {
         this.id = deployment.getId();
         this.namespace = deployment.getNamespace();
@@ -41,6 +34,7 @@ public class DeploymentDTO {
         this.selector = deployment.getSelector();
     }
 
+    // Getters and setters
     public long getId() {
         return id;
     }
@@ -129,7 +123,7 @@ public class DeploymentDTO {
         this.selector = selector;
     }
 
-    // skal nok slettes ellers bruges til test
+    // For test purpose
     @Override
     public int hashCode() {
         int hash = 3;

@@ -3,13 +3,12 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dto.UserDTO;
-import entities.User;
+import dto.UsersDTO;
+import errorhandling.NoConnectionException;
+import errorhandling.NotFoundException;
 import facades.UserFacade;
-import java.util.List;
 import javax.annotation.security.RolesAllowed;
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -17,10 +16,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import utils.EMF_Creator;
 
+/**
+ * REST Web Service
+ *
+ */
 @Path("users")
 public class UserResource {
 
@@ -35,48 +40,68 @@ public class UserResource {
     private static final UserFacade FACADE = UserFacade.getUserFacade(EMF);
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
+    /**
+     * GET *
+     */
     // To verify if there is a connection to the endpoint users
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getInfoForAll() {
-        return "{\"msg\":\"Hello anonymous\"}";
+        return "{\"msg\":\"Hello from users\"}";
     }
 
-    // Just to verify if the database is setup
+    // Ping reponse
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("all")
-    public String allUsers() {
+    @Path("/ping")
+    public Response ping() {
+        return Response.ok().entity("Service online").build();
+    }
 
-        EntityManager em = EMF.createEntityManager();
-        try {
-            TypedQuery<User> query = em.createQuery("select u from User u", entities.User.class);
-            List<User> users = query.getResultList();
-            return "[" + users.size() + "]";
-        } finally {
-            em.close();
-        }
-
+    @Path("/count")
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    public String getUserCount() throws NoConnectionException {
+        long count = FACADE.getUserCount();
+        return "{\"count\":" + count + "}";  //Done manually so no need for a DTO
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("user")
+    @Path("/all")
+    public String allUsers() throws NoConnectionException {
+        UsersDTO users = FACADE.getAllUsers();
+        return GSON.toJson(users);
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/user")
     @RolesAllowed("user")
     public String getFromUser() {
         String thisuser = securityContext.getUserPrincipal().getName();
-        return "{\"msg\": \"Hello to User: " + thisuser + "\"}";
+        return "{\"msg\": \"Hej " + thisuser + " du er ved at logge ud.\"}";
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("admin")
+    @Path("/admin")
     @RolesAllowed("admin")
     public String getFromAdmin() {
         String thisuser = securityContext.getUserPrincipal().getName();
-        return "{\"msg\": \"Hello to (admin) User: " + thisuser + "\"}";
+        return "{\"msg\": \"Hej " + thisuser + " du er ved at logge ud.\"}";
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/username/{name}")
+    public String getUser(@PathParam("name") String name) throws NoConnectionException, NotFoundException {
+        return GSON.toJson(FACADE.getUser(name));
+    }
+
+    /**
+     * POST *
+     */
     @POST
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})

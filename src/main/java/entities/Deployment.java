@@ -1,11 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package entities;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,12 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-/**
- *
- * @author jplm
- */
 @Entity
 @Table(name = "deployments")
+@NamedQuery(name = "Deployment.deleteAllRows", query = "DELETE from Deployment")
 @NamedQuery(name = "Deployment.getAllRows", query = "SELECT d from Deployment d")
 public class Deployment implements Serializable {
 
@@ -37,6 +31,7 @@ public class Deployment implements Serializable {
     private String images;
     private String selector;
 
+    // Constructors
     public Deployment() {
 
     }
@@ -53,6 +48,7 @@ public class Deployment implements Serializable {
         this.selector = selector;
     }
 
+    // Getters and setters
     public Long getId() {
         return id;
     }
@@ -133,31 +129,72 @@ public class Deployment implements Serializable {
         this.selector = selector;
     }
 
-    
-
+    // For test purpose
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 3;
+        hash = 53 * hash + Objects.hashCode(this.id);
+        hash = 53 * hash + Objects.hashCode(this.namespace);
+        hash = 53 * hash + Objects.hashCode(this.name);
+        hash = 53 * hash + Objects.hashCode(this.ready);
+        hash = 53 * hash + Objects.hashCode(this.uptodate);
+        hash = 53 * hash + Objects.hashCode(this.available);
+        hash = 53 * hash + Objects.hashCode(this.age);
+        hash = 53 * hash + Objects.hashCode(this.containers);
+        hash = 53 * hash + Objects.hashCode(this.images);
+        hash = 53 * hash + Objects.hashCode(this.selector);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Deployment)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Deployment other = (Deployment) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Deployment other = (Deployment) obj;
+        if (!Objects.equals(this.namespace, other.namespace)) {
+            return false;
+        }
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.ready, other.ready)) {
+            return false;
+        }
+        if (!Objects.equals(this.uptodate, other.uptodate)) {
+            return false;
+        }
+        if (!Objects.equals(this.available, other.available)) {
+            return false;
+        }
+        if (!Objects.equals(this.age, other.age)) {
+            return false;
+        }
+        if (!Objects.equals(this.containers, other.containers)) {
+            return false;
+        }
+        if (!Objects.equals(this.images, other.images)) {
+            return false;
+        }
+        if (!Objects.equals(this.selector, other.selector)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
     }
 
+    // Information
     @Override
     public String toString() {
-        return "entities.Deployment[ id=" + id + " ]";
+        return "Deployment{" + "id=" + id + ", namespace=" + namespace + ", name=" + name + ", ready=" + ready + ", uptodate=" + uptodate + ", available=" + available + ", age=" + age + ", containers=" + containers + ", images=" + images + ", selector=" + selector + '}';
     }
 
 }

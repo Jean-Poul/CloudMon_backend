@@ -1,16 +1,13 @@
 package security.errorhandling;
 
-/**
- *
- * @author lam@cphbusiness.dk
- */
-public class AuthenticationException extends Exception{
-
+// Homemade exception
+public class AuthenticationException extends Exception {
+    // Constructors
     public AuthenticationException(String message) {
         super(message);
     }
 
     public AuthenticationException() {
-        super("Could not be Authenticated");
-    }  
+        super("Could not be authenticated");
+    }
 }

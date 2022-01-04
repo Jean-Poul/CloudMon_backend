@@ -1,17 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package dto;
 
 import entities.Service;
 import java.util.Objects;
 
-/**
- *
- * @author jplm
- */
 public class ServiceDTO {
 
     private Long id;
@@ -27,6 +19,7 @@ public class ServiceDTO {
     private String age;
     private String selector;
 
+    // Constructor
     public ServiceDTO(Service service) {
         this.id = service.getId();
         this.namespace = service.getNamespace();
@@ -39,6 +32,7 @@ public class ServiceDTO {
         this.selector = service.getSelector();
     }
 
+    // Getters and setters
     public Long getId() {
         return id;
     }
@@ -119,7 +113,7 @@ public class ServiceDTO {
         this.selector = selector;
     }
 
-// skal nok slettes ellers bruges til test
+    // For test purpose
     @Override
     public int hashCode() {
         int hash = 5;

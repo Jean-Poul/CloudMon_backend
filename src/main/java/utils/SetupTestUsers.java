@@ -6,14 +6,15 @@ import entities.User;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
+// Class to populate our database with users and roles
 public class SetupTestUsers {
 
     public static void main(String[] args) {
-
+        // Database setup
         EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
         EntityManager em = emf.createEntityManager();
 
-        // IMPORTAAAAAAAAAANT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // IMPORTAAAAAAAAAANT!!!
         // This breaks one of the MOST fundamental security rules in that it ships with default users and passwords
         // CHANGE the three passwords below, before you uncomment and execute the code below
         // Also, either delete this file, when users are created or rename and add to .gitignore
@@ -21,10 +22,6 @@ public class SetupTestUsers {
         User user = new User("user", "popcorn");
         User admin = new User("admin", "popcorn");
         User both = new User("user_admin", "popcorn");
-
-        if (admin.getUserPass().equals("test") || user.getUserPass().equals("test") || both.getUserPass().equals("test")) {
-            throw new UnsupportedOperationException("You have not changed the passwords");
-        }
 
         em.getTransaction().begin();
         Role userRole = new Role("user");

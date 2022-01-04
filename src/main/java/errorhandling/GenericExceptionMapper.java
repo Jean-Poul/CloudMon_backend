@@ -12,22 +12,25 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+// Take an existing Exception, and Map it into a response
 @Provider
 public class GenericExceptionMapper implements ExceptionMapper<Throwable> {
-
+    // Default is minified but since we are in development pretty printing is used to format the JSON output
     static Gson gson = new GsonBuilder().setPrettyPrinting().create();
     @Context
     ServletContext context;
 
+    // Throwable exception response
     @Override
     public Response toResponse(Throwable ex) {
         Logger.getLogger(GenericExceptionMapper.class.getName()).log(Level.SEVERE, null, ex);
+
         Response.StatusType type = getStatusType(ex);
         ExceptionDTO err;
+
         if (ex instanceof WebApplicationException) {
             err = new ExceptionDTO(type.getStatusCode(), ((WebApplicationException) ex).getMessage());
         } else {
-
             err = new ExceptionDTO(type.getStatusCode(), type.getReasonPhrase());
         }
         return Response.status(type.getStatusCode())
@@ -36,6 +39,7 @@ public class GenericExceptionMapper implements ExceptionMapper<Throwable> {
                 build();
     }
 
+    // Status type for response
     private Response.StatusType getStatusType(Throwable ex) {
         if (ex instanceof WebApplicationException) {
             return ((WebApplicationException) ex).getResponse().getStatusInfo();
@@ -43,10 +47,11 @@ public class GenericExceptionMapper implements ExceptionMapper<Throwable> {
         return Response.Status.INTERNAL_SERVER_ERROR;
     }
 
-    //Small hack, to provide json-error response in the filter
+    // Small hack, to provide JSON-error response in the filter
     public static Response makeErrRes(String msg, int status) {
         ExceptionDTO error = new ExceptionDTO(status, msg);
         String errJson = gson.toJson(error);
+
         return Response.status(error.getCode())
                 .entity(errJson)
                 .type(MediaType.APPLICATION_JSON)
