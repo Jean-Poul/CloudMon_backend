@@ -133,7 +133,7 @@ public class UserFacade {
                     throw new AuthenticationException("Username is in use");
                 }
             }
-        } catch (Exception e) {
+        } catch (AuthenticationException e) {
             throw new NoConnectionException("No connection to the database. " + e);
         } finally {
             em.close();
