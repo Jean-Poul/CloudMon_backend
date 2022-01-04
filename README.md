@@ -50,7 +50,7 @@ The frontend is a single page application (SPA) written in REACT.
 
 ---
 
-## Backend Konfiguration:
+## Backend configuration:
 **The Database**
 - MySQL Database using Java Persistence API (JPA) (With some JPQL) to achieve ORM.
   
