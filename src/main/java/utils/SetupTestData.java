@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
+// Class to populate our database with provided data from GovCloud
 public class SetupTestData {
 
     public static void main(String[] args) throws IOException {
@@ -24,6 +25,7 @@ public class SetupTestData {
         getPods();
     }
 
+    // Populate database with namespace information
     public static void getNamespaces() throws IOException {
         EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
         EntityManager em = emf.createEntityManager();
@@ -38,11 +40,7 @@ public class SetupTestData {
             // java.nio.file.Path path = Paths.get("C:\\Users\\jplm\\Desktop\\Afsluttende datamatiker eksamen\\Backend\\src\\main\\java\\utils\\files\\ns.txt");
             java.nio.file.Path path = Paths.get("./src/main/java/utils/files/ns.txt");
             System.out.println(path);
-//String localDir = System.getProperty("user.dir");
-//            String basePath = new java.io.File("").getAbsolutePath();
-//            System.out.println("BASESESE: " + basePath);
-//
-//            System.out.println("PATHATHATH " + path.getFileName());
+
             BufferedReader reader = Files.newBufferedReader(path);
             String line = reader.readLine();
 
@@ -69,6 +67,7 @@ public class SetupTestData {
         }
     }
 
+    // Populate database with service information
     public static void getServices() throws IOException {
         EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
         EntityManager em = emf.createEntityManager();
@@ -108,13 +107,12 @@ public class SetupTestData {
                     em.getTransaction().commit();
                 } finally {
                     //em.close();
-                    // servicesDTO = (ServicesDTO) em.createNamedQuery("Service.getAllRows").getResultList();
-                    // servicesDTO = instance.getAllServices();
                 }
             }
         }
     }
 
+    // Populate database with deployment information
     public static void getDeployments() throws IOException {
         EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
         EntityManager em = emf.createEntityManager();
@@ -160,6 +158,7 @@ public class SetupTestData {
         }
     }
 
+    // Populate database with pod information
     public static void getPods() throws IOException {
         EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
         EntityManager em = emf.createEntityManager();

@@ -35,19 +35,20 @@ public class UserFacadeTest {
     public UserFacadeTest() {
     }
 
+    // Setup before any test has run
     @BeforeAll
     public static void setUpClass() {
         emf = EMF_Creator.createEntityManagerFactoryForTest();
         facade = UserFacade.getUserFacade(emf);
     }
 
+    // Clean up database after test is done or use a persistence unit with drop-and-create to start up clean on every test
     @AfterAll
     public static void tearDownClass() {
-//        Clean up database after test is done or use a persistence unit with drop-and-create to start up clean on every test
-   //     emf.close();
+        //emf.close();
     }
 
-    // Setup the DataBase in a known state BEFORE EACH TEST
+    // Setup the Database in a known state before each test
     @BeforeEach
     public void setUp() {
         EntityManager em = emf.createEntityManager();
@@ -76,9 +77,10 @@ public class UserFacadeTest {
         }
     }
 
+    // Remove any data after each test was run
     @AfterEach
     public void tearDown() {
-//        Remove any data after each test was run
+
     }
 
     /**
