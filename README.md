@@ -40,6 +40,11 @@
 
 ---
 
+## Postman documentation:
+[Postman documentation](https://documenter.getpostman.com/view/12822718/UVR5s9RN)
+
+---
+
 ## Frontend configuration
 The frontend is a single page application (SPA) written in REACT.
 
