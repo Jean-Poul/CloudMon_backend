@@ -20,23 +20,23 @@ public class SharedSecret {
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
          */
 
-//        boolean isDeployed = (System.getenv("DEPLOYED") != null);
-//
-//        if (isDeployed) {
-//            String key = System.getenv("SHARED_SECRET");
-//            return key.getBytes();
-//        } else {
-//            return "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA".getBytes();
-//        }
+        boolean isDeployed = (System.getenv("DEPLOYED") != null);
 
-        //REMOVE BEFORE PRODUCTION
-        if(true){
+        if (isDeployed) {
+            String key = System.getenv("SHARED_SECRET");
+            return key.getBytes();
+        } else {
             return "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA".getBytes();
         }
-        if (secret == null) {  //Or better read as an environment variable set on production server
-            secret = new byte[32];
-            new SecureRandom().nextBytes(secret);
-        }
-        return secret;
+
+//        //REMOVE BEFORE PRODUCTION
+//        if(true){
+//            return "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA".getBytes();
+//        }
+//        if (secret == null) {  //Or better read as an environment variable set on production server
+//            secret = new byte[32];
+//            new SecureRandom().nextBytes(secret);
+//        }
+//        return secret;
     }
 }
