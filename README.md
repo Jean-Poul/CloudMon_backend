@@ -27,16 +27,16 @@
 ---
 
 ## Deployed frontend & backend:
-[http://cloudmon.surge.sh/](http://cloudmon.surge.sh/)
+[https://cloudmon.surge.sh/](https://cloudmon.surge.sh/)
 
-[https://www.jplm.dk/cloudmon/api/](https://www.jplm.dk/cloudmon/api/)
+[https://www.jplm.dk/cloudmon/](https://www.jplm.dk/cloudmon/)
 
 ---
 
 ## Setup Filer:
-[SetupTestUsers]()
+[SetupTestUsers](https://gist.github.com/Jean-Poul/5809e72e97be979e29daaed60ef662d1)
 
-[SetupTestUsers]()
+[SetupTestData](https://gist.github.com/Jean-Poul/c7badf890de76f6a0738e3b358a47c5f)
 
 ---
 
