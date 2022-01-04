@@ -20,6 +20,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import security.errorhandling.AuthenticationException;
 import utils.EMF_Creator;
 
 /**
@@ -105,7 +106,7 @@ public class UserResource {
     @POST
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
-    public String addUser(String user) throws Exception {
+    public String addUser(String user) throws AuthenticationException, NoConnectionException  {
         UserDTO u = GSON.fromJson(user, UserDTO.class);
         UserDTO addUser = FACADE.addUser(u.getUserID(), u.getPassword());
         return GSON.toJson(addUser);
