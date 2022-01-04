@@ -46,7 +46,7 @@
 ---
 
 ## Frontend configuration
-The frontend is a single page application (SPA) written in REACT.
+The frontend is a single page application (SPA) written in React.
 
 ---
 
