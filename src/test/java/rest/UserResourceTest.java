@@ -25,7 +25,9 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 import utils.EMF_Creator;
+
 
 public class UserResourceTest {
 
@@ -39,47 +41,53 @@ public class UserResourceTest {
     private static HttpServer httpServer;
     private static EntityManagerFactory emf;
 
+    // Start the test server
     static HttpServer startServer() {
         ResourceConfig rc = ResourceConfig.forApplication(new ApplicationConfig());
         return GrizzlyHttpServerFactory.createHttpServer(BASE_URI, rc);
     }
 
+    // Setup before any test has run
     @BeforeAll
     public static void setUpClass() {
-        //This method must be called before you request the EntityManagerFactory
+        // This method must be called before requesting the EntityManagerFactory
         EMF_Creator.startREST_TestWithDB();
         emf = EMF_Creator.createEntityManagerFactoryForTest();
 
         httpServer = startServer();
-        //Setup RestAssured
+        // Setup RestAssured
         RestAssured.baseURI = SERVER_URL;
         RestAssured.port = SERVER_PORT;
         RestAssured.defaultParser = Parser.JSON;
     }
 
+    // Clean up database after test is done or use a persistence unit with drop-and-create to start up clean on every test
     @AfterAll
     public static void closeTestServer() {
-        //Don't forget this, if you called its counterpart in @BeforeAll
+        // Don't forget this if its counterpart was called in @BeforeAll
         EMF_Creator.endREST_TestWithDB();
         httpServer.shutdownNow();
     }
 
+    // Setup the database in a known state before each test
     @BeforeEach
     public void setUp() {
         EntityManager em = emf.createEntityManager();
 
         try {
             em.getTransaction().begin();
+            // Delete existing users and roles to get a clean database
             em.createNamedQuery("User.deleteAllRows").executeUpdate();
             em.createNamedQuery("Role.deleteAllRows").executeUpdate();
+
             r1 = new Role("user");
             r2 = new Role("admin");
+
             u1 = new User("testuser1", "testpass1");
             u2 = new User("testuser2", "testpass2");
-
             u3 = new User("Test", "Me");
-            u3.addRole(r1);
 
+            u3.addRole(r1);
             u1.addRole(r1);
             u2.addRole(r2);
 
@@ -95,14 +103,15 @@ public class UserResourceTest {
         }
     }
 
+    // Remove any data after each test was run
     @AfterEach
     public void tearDown() {
+
     }
 
     /**
      * Test of endpoint /users, of class UserResource.
      */
-    //@Disabled
     @Test
     public void testServerIsUp() {
         System.out.println("Testing if server up");
@@ -117,7 +126,6 @@ public class UserResourceTest {
     /**
      * Test of Ping method, of class UserResource.
      */
-    //@Disabled
     @Test
     public void testPing() {
         System.out.println("Testing if /ping is up");
@@ -133,7 +141,6 @@ public class UserResourceTest {
     /**
      * Test of Count method, of class UserResource.
      */
-    //@Disabled
     @Test
     public void testCount() throws Exception {
         System.out.println("Count users");
@@ -149,12 +156,12 @@ public class UserResourceTest {
     /**
      * Test to make sure an unwanted person can't get information without proper authentication
      */
-//@Disabled
     @Test
     public void testGetRole() throws Exception {
-// Can not get role without being logged in.
-// We also test login with Postman
+        // Can not get a role without being logged in.
+        // We also test login with Postman
         System.out.println("Get null user role info when not logged in");
+
         given()
                 .when()
                 .get("users/" + "user")
@@ -202,7 +209,7 @@ public class UserResourceTest {
         assertThat(usersDTOs, hasSize(3));
     }
 
-    //This is how we hold on to the token after login, similar to that a client must store the token somewhere
+    // This is how we hold on to the token after login, similar to that a client must store the token somewhere
     private static String securityToken;
 
     /**
@@ -213,6 +220,7 @@ public class UserResourceTest {
         System.out.println("Get from user");
 
         String json = String.format("{username: \"%s\", password: \"%s\"}", "testuser1", "testpass1");
+
         securityToken = given()
                 .contentType("application/json")
                 .body(json)
@@ -237,6 +245,7 @@ public class UserResourceTest {
         System.out.println("Get from admin");
 
         String json = String.format("{username: \"%s\", password: \"%s\"}", "testuser2", "testpass2");
+
         securityToken = given()
                 .contentType("application/json")
                 .body(json)

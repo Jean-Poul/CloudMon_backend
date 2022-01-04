@@ -18,9 +18,12 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 import static org.junit.jupiter.api.Assertions.*;
 import utils.EMF_Creator;
 
+// Uncomment the line below, to temporarily disable this test
+// @Disabled
 public class ApplicationFacadeTest {
 
     private static EntityManagerFactory emf;
@@ -32,19 +35,20 @@ public class ApplicationFacadeTest {
     public ApplicationFacadeTest() {
     }
 
+    // Setup before any test has run
     @BeforeAll
     public static void setUpClass() {
         emf = EMF_Creator.createEntityManagerFactoryForTest();
         facade = ApplicationFacade.getApplicationFacade(emf);
     }
 
+    // Clean up database after test is done or use a persistence unit with drop-and-create to start up clean on every test
     @AfterAll
     public static void tearDownClass() {
-//        Clean up database after test is done or use a persistence unit with drop-and-create to start up clean on every test
-   //     emf.close();
+        //emf.close();
     }
 
-    // Setup the DataBase in a known state BEFORE EACH TEST
+    // Setup the database in a known state before each test
     @BeforeEach
     public void setUp() {
         EntityManager em = emf.createEntityManager();
@@ -65,9 +69,10 @@ public class ApplicationFacadeTest {
         }
     }
 
+    // Remove any data after each test was run
     @AfterEach
     public void tearDown() {
-//        Remove any data after each test was run
+
     }
 
     /**
@@ -85,6 +90,8 @@ public class ApplicationFacadeTest {
      */
     @Test
     public void testGetApplicationCount() throws NoConnectionException {
+        System.out.println("Get application count");
+
         try {
             assertEquals(2, facade.getApplicationCount(), "Expects two rows in the database");
         } catch (NoConnectionException e) {
@@ -111,6 +118,20 @@ public class ApplicationFacadeTest {
     }
 
     /**
+     * Test of getApplication method, of class ApplicationFacade.
+     */
+    @Test
+    public void testgetApplication() throws NotFoundException {
+        System.out.println("Get Application");
+
+        ApplicationDTO appDTO = facade.getApplication(app1.getId());
+
+        assertEquals("Kubernetes", appDTO.getName());
+        assertEquals("1.9a", appDTO.getVersion());
+        assertEquals("Cluster-009", appDTO.getLocation());
+    }
+
+    /**
      * Test of addApplication method, of class ApplicationFacade.
      */
     @Test
@@ -122,7 +143,6 @@ public class ApplicationFacadeTest {
         String location = "Cluster-test-003";
 
         Application app = new Application(appName, version, location);
-//        ApplicationDTO appDTO = new ApplicationDTO(app);
 
         facade.addApplication(app.getName(), app.getVersion(), app.getLocation());
 
@@ -134,7 +154,6 @@ public class ApplicationFacadeTest {
             em.getTransaction().begin();
 
             Application appl = em.find(Application.class, id);
-//            System.out.println(appl.getName());
 
             em.getTransaction().commit();
 
@@ -164,7 +183,6 @@ public class ApplicationFacadeTest {
         facade.deleteApplication(app2.getId());
 
         assertEquals(0, facade.getApplicationCount());
-        //assertEquals(facade.getApplication(appDTO.getId()), "No App with provided App name found");
     }
 
     /**
@@ -195,19 +213,6 @@ public class ApplicationFacadeTest {
         assertEquals("testName", updateApp.getName());
         assertEquals("v1.12", updateApp.getVersion());
         assertEquals("Cluster-Test-012", updateApp.getLocation());
-
     }
 
-    /**
-     * Test of getApplication method, of class ApplicationFacade.
-     */
-    @Test
-    public void testgetApplication() throws NotFoundException {
-        System.out.println("Get Application");
-        ApplicationDTO appDTO = facade.getApplication(app1.getId());
-
-        assertEquals("Kubernetes", appDTO.getName());
-        assertEquals("1.9a", appDTO.getVersion());
-        assertEquals("Cluster-009", appDTO.getLocation());
-    }
 }

@@ -24,8 +24,11 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 import utils.EMF_Creator;
 
+// Uncomment the line below, to temporarily disable this test
+// @Disabled
 public class ApplicationResourceTest {
 
     private static final int SERVER_PORT = 7777;
@@ -37,37 +40,42 @@ public class ApplicationResourceTest {
     private static HttpServer httpServer;
     private static EntityManagerFactory emf;
 
+    // Start the test server
     static HttpServer startServer() {
         ResourceConfig rc = ResourceConfig.forApplication(new ApplicationConfig());
         return GrizzlyHttpServerFactory.createHttpServer(BASE_URI, rc);
     }
 
+    // Setup before any test has run
     @BeforeAll
     public static void setUpClass() {
-        //This method must be called before you request the EntityManagerFactory
+        // This method must be called before requesting the EntityManagerFactory
         EMF_Creator.startREST_TestWithDB();
         emf = EMF_Creator.createEntityManagerFactoryForTest();
 
         httpServer = startServer();
-        //Setup RestAssured
+        // Setup RestAssured
         RestAssured.baseURI = SERVER_URL;
         RestAssured.port = SERVER_PORT;
         RestAssured.defaultParser = Parser.JSON;
     }
 
+    // Clean up database after test is done or use a persistence unit with drop-and-create to start up clean on every test
     @AfterAll
     public static void tearDownClass() {
-        //Don't forget this, if you called its counterpart in @BeforeAll
+        // Don't forget this if its counterpart was called in @BeforeAll
         EMF_Creator.endREST_TestWithDB();
         httpServer.shutdownNow();
     }
 
+    // Setup the database in a known state before each test
     @BeforeEach
     public void setUp() {
         EntityManager em = emf.createEntityManager();
 
         try {
             em.getTransaction().begin();
+            // Delete existing applications to get a clean database
             em.createNamedQuery("Application.deleteAllRows").executeUpdate();
 
             app1 = new Application("Harbor", "5.2c", "Cluster-prod-112");
@@ -82,14 +90,15 @@ public class ApplicationResourceTest {
         }
     }
 
+    // Remove any data after each test was run
     @AfterEach
     public void tearDown() {
+
     }
 
     /**
      * Test of endpoint /apps, of class ApplicationResource.
      */
-    //@Disabled
     @Test
     public void testServerIsUp() {
         System.out.println("Testing if server is up");

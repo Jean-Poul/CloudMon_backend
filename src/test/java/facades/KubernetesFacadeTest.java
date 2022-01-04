@@ -34,6 +34,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Disabled;
 import utils.EMF_Creator;
 
+// Uncomment the line below, to temporarily disable this test
+// @Disabled
 public class KubernetesFacadeTest {
 
     private static EntityManagerFactory emf;
@@ -48,19 +50,20 @@ public class KubernetesFacadeTest {
 
     }
 
+    // Setup before any test has run
     @BeforeAll
     public static void setUpClass() {
         emf = EMF_Creator.createEntityManagerFactoryForTest();
         facade = KubernetesFacade.getKubernetesFacade(emf);
     }
 
+    // Clean up database after test is done or use a persistence unit with drop-and-create to start up clean on every test
     @AfterAll
     public static void tearDownClass() {
-//        Clean up database after test is done or use a persistence unit with drop-and-create to start up clean on every test
-        //      emf.close();
+      //emf.close();
     }
 
-// Setup the DataBase in a known state BEFORE EACH TEST
+    // Setup the database in a known state before each test
     @BeforeEach
     public void setUp() {
         EntityManager em = emf.createEntityManager();
@@ -102,9 +105,10 @@ public class KubernetesFacadeTest {
         }
     }
 
+    // Remove any data after each test was run
     @AfterEach
     public void tearDown() {
-//        Remove any data after each test was run
+
     }
 
     /**

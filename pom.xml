@@ -11,7 +11,7 @@
     <packaging>war</packaging>
 
     <name>cloudmon</name>
-
+    <!-- properties -->
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -21,7 +21,7 @@
         <remote.server>https://www.jplm.dk/manager/text</remote.server>
         
     </properties>
-    
+    <!-- dependencies -->
     <dependencies>
         
         <dependency>
@@ -119,7 +119,7 @@
     </dependencies>
 
     <build>
-       
+        <!-- plugins -->
         <plugins>
             <!-- Plugin used to deploy to remote server -->
             <plugin>

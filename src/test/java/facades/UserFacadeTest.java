@@ -21,10 +21,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 import security.errorhandling.AuthenticationException;
 
-//Uncomment the line below, to temporarily disable this test
-//@Disabled
+// Uncomment the line below, to temporarily disable this test
+// @Disabled
 public class UserFacadeTest {
 
     private static EntityManagerFactory emf;
@@ -48,7 +49,7 @@ public class UserFacadeTest {
         //emf.close();
     }
 
-    // Setup the Database in a known state before each test
+    // Setup the database in a known state before each test
     @BeforeEach
     public void setUp() {
         EntityManager em = emf.createEntityManager();
@@ -99,6 +100,7 @@ public class UserFacadeTest {
     @Test
     public void testUserCount() throws NoConnectionException {
         System.out.println("Get user count");
+
         try {
             assertEquals(2, facade.getUserCount(), "Expects two rows in the database");
         } catch (NoConnectionException e) {
@@ -113,6 +115,7 @@ public class UserFacadeTest {
     @Test
     public void testGetVeryfiedUser() throws AuthenticationException {
         System.out.println("Get veryfied user");
+
         String pass = u1.getUserPass();
 
         assertEquals(u1.getUserName(), "testuser1");
@@ -138,13 +141,11 @@ public class UserFacadeTest {
     @Test
     public void testAddUser() throws Exception, AuthenticationException, NoConnectionException {
         System.out.println("Add user");
+
         String userName = "ping";
         String pass = "pong";
 
         User usr = new User(userName, pass);
-//        UserDTO u = new UserDTO(uls);
-//
-//        System.out.println(u);
 
         EntityManager em = emf.createEntityManager();
         try {
@@ -152,7 +153,6 @@ public class UserFacadeTest {
             em.getTransaction().begin();
 
             User us = em.find(User.class, userName);
-//            System.out.println(us.getUserName());
 
             em.getTransaction().commit();
 
@@ -171,10 +171,9 @@ public class UserFacadeTest {
     @Test
     public void testGetAllUsers() throws NoConnectionException {
         System.out.println("Get All users");
+
         UsersDTO usersDTO = facade.getAllUsers();
         List<UserDTO> list = usersDTO.getAll();
-
-        System.out.println("Liste af users: " + list);
 
         assertThat(list, everyItem(Matchers.hasProperty("password")));
         assertThat(list, everyItem(Matchers.hasProperty("lastLoginTime")));
@@ -189,6 +188,7 @@ public class UserFacadeTest {
     @Test
     public void testGetUser() throws NoConnectionException, NotFoundException {
         System.out.println("Get User");
+
         UserDTO userDTO = facade.getUser(u1.getUserName());
 
         assertEquals("testuser1", userDTO.getUserID());
