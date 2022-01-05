@@ -1,9 +1,9 @@
 # CloudMon - Backend [![Build Status](https://app.travis-ci.com/Jean-Poul/CloudMon_backend.svg?branch=main)](https://app.travis-ci.com/Jean-Poul/CloudMon_backend)
 
-### Udarbejdet af:
+### Developed by:
 **Alexander Pihl & Jean-Poul Wilhelm Luplau Leth-Møller**
 
-*CloudMon er udviklet over en periode fra den 1.11.2021 til den 05.01.2022, som del af den afsluttende hovedopgave på Datamatikeruddannelsen på Copenhagen Business Academy Lyngby, og tager udgangspunkt i en problemstilling, der ønskes løst, i virksomheden GovCloud.*
+*CloudMon is developed over the periode of 1.11.2021 to 05.01.2022 as a part of our final exam with the subject Computer Science on Copenhagen Business Academy in Lyngby and is based on a problem the company GovCloud want us to solve.*
 
 --- 
 
@@ -33,7 +33,7 @@
 
 ---
 
-## Setup Filer:
+## Setup Files:
 [SetupTestUsers](https://gist.github.com/Jean-Poul/5809e72e97be979e29daaed60ef662d1)
 
 [SetupTestData](https://gist.github.com/Jean-Poul/c7badf890de76f6a0738e3b358a47c5f)
