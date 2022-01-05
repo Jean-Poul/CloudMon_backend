@@ -15,6 +15,7 @@ import javax.ws.rs.ext.Provider;
 // Take an existing Exception, and Map it into a response
 @Provider
 public class AuthenticationExceptionMapper implements ExceptionMapper<AuthenticationException> {
+
     // Default is minified but since we are in development pretty printing is used to format the JSON output
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final int ERROR_CODE = 403;
@@ -27,6 +28,6 @@ public class AuthenticationExceptionMapper implements ExceptionMapper<Authentica
         Logger.getLogger(AuthenticationExceptionMapper.class.getName()).log(Level.SEVERE, null, ex);
 
         ExceptionDTO err = new ExceptionDTO(ERROR_CODE, ex.getMessage());
-        return Response.status(ERROR_CODE).entity(gson.toJson(err)).type(MediaType.APPLICATION_JSON).build();  
-    }   
+        return Response.status(ERROR_CODE).entity(gson.toJson(err)).type(MediaType.APPLICATION_JSON).build();
+    }
 }
