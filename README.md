@@ -59,9 +59,10 @@ The frontend is a single page application (SPA) written in React.
 
 **Testing**
 Consisting of unit and integration tests using:
-- jUnit
 - Grizzly webserver
 - Hamcrest
+- JUnit
+- REST-Assured
 
 **Security**
 - BCrypt plus hash/salt configurations.
